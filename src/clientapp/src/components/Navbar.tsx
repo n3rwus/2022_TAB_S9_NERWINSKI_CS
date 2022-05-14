@@ -11,7 +11,7 @@ import { Link } from '@mui/material';
 import { Redirect } from 'react-router-dom';
 
 interface iNavbar {
-centerText?: string;
+	centerText?: string;
 }
 
 export default function Navbar(props: iNavbar) {
@@ -32,7 +32,7 @@ export default function Navbar(props: iNavbar) {
 		setAnchorEl(null);
 	};
 
-	const handleClick = event => {
+	const handleClick = (event: any) => {
 		handleClose();
 		const { myValue } = event.currentTarget.dataset;
 		// eslint-disable-next-line no-console
