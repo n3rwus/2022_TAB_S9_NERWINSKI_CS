@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { styled } from '@mui/material/styles';
 
 interface iUploadImageButton {
