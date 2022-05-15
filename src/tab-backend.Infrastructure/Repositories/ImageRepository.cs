@@ -18,15 +18,35 @@ namespace tab_backend.Infrastructure.Repositories
             _context = context;
         }
 
+        public Image AddImage(Image image)
+        {
+            _context.Images.Add(image);
+
+            _context.SaveChanges();
+
+            return image;
+        }
+
+        public void DeleteImage(Image image)
+        {
+            _context.Images.Remove(image);
+
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Image> GetAllImage()
+        {
+            return _context.Images;
+        }
+
         public IEnumerable<Image> GetFolderImage(Folder folder)
         {
-            throw new NotImplementedException();
+            return _context.Images.Where(x => x.Folders.Any(f => f.ID == folder.ID) == true);
         }
 
         public IEnumerable<Image> GetImageByCategory(Category category)
         {
-            //return _context.Images.Where(x => x.Categories.FirstOrDefault(c=>c.Name==category.Name) == category);
-            throw new NotImplementedException();
+            return _context.Images.Where(x => x.Categories.Any(c=>c.ID==category.ID) == true);
         }
 
         public IEnumerable<Image> GetImageByDate(DateTime date)
@@ -52,6 +72,13 @@ namespace tab_backend.Infrastructure.Repositories
         public IEnumerable<Image> GetUserImage(User user)
         {
             return _context.Images.Where(x => x.User == user);
+        }
+
+        public void UpdateImage(Image image)
+        {
+            _context.Images.Update(image);
+
+            _context.SaveChanges();
         }
     }
 }
