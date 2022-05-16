@@ -16,10 +16,13 @@ const UploadImageCard = (props: iUploadImageButton) => {
 	return (
 		<Grid item xs={12} sm={6} md={4}>
 			<Card sx={{ maxWidth: 345, mx: 'auto', mb: '50px' }}>
+				<Typography variant="h5" component="div" textAlign={'center'}>
+					{image.name}
+				</Typography>
 				<CardMedia component="img" height="240" image={URL.createObjectURL(image)} alt="green iguana" />
-					<CardContent>
+				<CardContent>
 					<Typography variant="h5" component="div" textAlign={'center'}>
-						{'Image ' + (index + 1)}
+						{(index + 1)}
 					</Typography>
 				</CardContent>
 			</Card>
