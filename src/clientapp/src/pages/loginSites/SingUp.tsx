@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AuthenticationDataProvider } from '../../data/AuthenticationDataProvider';
 
 function Copyright(props: any) {
 return (
@@ -28,13 +29,16 @@ return (
 
 const theme = createTheme();
 
-export default function SignUp() {
+const SignUp = () => {
+	const [email, setEmail] = React.useState("");
+	const [password, setPassword] = React.useState("");
+	const [firstName, setFirstName] = React.useState("");
+
 const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 	event.preventDefault();
-	const data = new FormData(event.currentTarget);
-	console.log({
-	email: data.get('email'),
-	password: data.get('password'),
+	return AuthenticationDataProvider.createAccount(email, password, firstName)
+	.then(res => {
+		console.log(res);
 	});
 };
 
@@ -67,6 +71,7 @@ return (
 				id="firstName"
 				label="First Name"
 				autoFocus
+				onChange={event => setFirstName(event.target.value)}
 				/>
 			</Grid>
 			<Grid item xs={12}>
@@ -77,6 +82,7 @@ return (
 				label="Email Address"
 				name="email"
 				autoComplete="email"
+				onChange={event => setEmail(event.target.value)}
 				/>
 			</Grid>
 			<Grid item xs={12}>
@@ -88,6 +94,7 @@ return (
 				type="password"
 				id="password"
 				autoComplete="new-password"
+				onChange={event => setPassword(event.target.value)}
 				/>
 			</Grid>
 			</Grid>
@@ -113,3 +120,5 @@ return (
 	</ThemeProvider>
 );
 }
+
+export default SignUp;
