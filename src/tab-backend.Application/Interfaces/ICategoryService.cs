@@ -18,5 +18,6 @@ namespace tab_backend.Application.Interfaces
         public void UpdateCategory(CategoryDTO category);
 
         public void DeleteCategory(CategoryDTO category);
+
     }
 }

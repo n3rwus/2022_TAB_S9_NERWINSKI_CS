@@ -19,5 +19,13 @@ namespace tab_backend.Infrastructure.Data
         public DbSet<Image> Images { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            //Adds ManytoMany Relation
+ 
+
+            base.OnModelCreating(builder);
+        }
     }
 }

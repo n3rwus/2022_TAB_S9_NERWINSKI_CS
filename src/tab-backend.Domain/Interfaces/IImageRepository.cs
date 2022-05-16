@@ -22,5 +22,13 @@ namespace tab_backend.Domain.Interfaces
         public IEnumerable<Image> GetImageByFormat(string format);
 
         public IEnumerable<Image> GetImageByDate(DateTime date);
+
+        public Image AddImage(Image image);
+
+        public void UpdateImage(Image image);
+
+        public void DeleteImage(Image image);
+
+        public IEnumerable<Image> GetAllImage();
     }
 }

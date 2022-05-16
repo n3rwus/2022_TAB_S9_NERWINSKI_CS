@@ -57,6 +57,7 @@ namespace tab_backend.WebAPI
                 };
             });
 
+            services.AddDbContext<TabContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TabCS")));
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();

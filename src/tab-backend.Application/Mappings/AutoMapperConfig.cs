@@ -19,6 +19,10 @@ namespace tab_backend.Application.Mappings
                 cfg.CreateMap<Image, ImageDTO>();
                 cfg.CreateMap<Category, CategoryDTO>();
                 cfg.CreateMap<Folder, FolderDTO>();
+                cfg.CreateMap<ImageDTO, Image>();
+                cfg.CreateMap<CategoryDTO, Category>();
+                cfg.CreateMap<FolderDTO, Folder>();
+                cfg.CreateMap<ImageAddDTO, ImageDTO>();
             }).CreateMapper();
     }
 }
