@@ -34,7 +34,7 @@ namespace tab_backend.Infrastructure.Repositories
 
         public User Login(User requestUser)
         {
-            var user = _users.SingleOrDefault(x => x.Email == requestUser.Email && x.Password == requestUser.Password);
+            var user = _users.FirstOrDefault(x => x.Email == requestUser.Email && x.Password == requestUser.Password);
 
             // return null if user not found
             if (user == null) return null;
