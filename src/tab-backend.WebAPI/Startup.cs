@@ -104,6 +104,15 @@ namespace tab_backend.WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(cors =>
+            {
+                cors.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithExposedHeaders("Content-Disposition", "Content-Length")
+                .WithOrigins("https://localhost:44303");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
