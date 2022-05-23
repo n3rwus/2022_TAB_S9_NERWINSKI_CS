@@ -20,13 +20,14 @@ export class AuthenticationDataProvider {
 
 	public static singIn(email: string, password: string) {
 		let data = '';
-		return axios.post(`https://localhost:44303/api/User/login`, {
+		return axios.post(`http://localhost:3189/api/User/login`, {
 				email: email,
 				password: password
 			}, {
 				headers: {
 				'Accept' : 'application/json',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
 			}
 		}).then(res => {
 			console.log(res);

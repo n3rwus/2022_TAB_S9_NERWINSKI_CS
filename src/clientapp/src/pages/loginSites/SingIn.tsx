@@ -35,6 +35,7 @@ const SignIn = () => {
 	const [password, setPassword] = React.useState("");
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
 		return AuthenticationDataProvider.singIn(email, password)
 		.then(res => {
 			console.log(res);
