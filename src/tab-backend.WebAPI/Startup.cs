@@ -27,6 +27,7 @@ namespace tab_backend.WebAPI
 {
     public class Startup
     {
+        String MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -56,6 +57,18 @@ namespace tab_backend.WebAPI
                     RequireExpirationTime = false
                 };
             });
+
+            services.AddCors(options =>
+                {
+                    options.AddPolicy(name: MyAllowSpecificOrigins,
+                        policy =>
+                        {
+                            policy.WithOrigins("http://localhost:3000/")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                        });
+                }
+            );
 
             services.AddDbContext<TabContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TabCS")));
 
@@ -104,14 +117,7 @@ namespace tab_backend.WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(cors =>
-            {
-                cors.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .WithExposedHeaders("Content-Disposition", "Content-Length")
-                .WithOrigins("https://localhost:44303");
-            });
+            app.UseCors(MyAllowSpecificOrigins);
 
             if (env.IsDevelopment())
             {
