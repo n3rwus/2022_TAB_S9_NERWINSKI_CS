@@ -67,7 +67,7 @@ const AddImage = (props: iAddImage) => {
 					<UploadImageButton multiple={true} handleImages={setImages} />
 				</Grid>
 				<Grid item xs={12} sm={12} md={4} textAlign="center">
-					<SaveButton disabled={images === undefined} />
+					<SaveButton disabled={images === undefined || title === '' || folder === ''} />
 				</Grid>
 				</Grid>
 			</Box>

@@ -27,14 +27,22 @@ return (
 
 const theme = createTheme();
 
-const SignIn = () => {
+interface iSignIn {
+	status?: string;
+}
+
+const SignIn = (props: iSignIn) => {
+
+	const {
+		status,
+	} = props;
 
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		return AuthenticationDataProvider.singIn(email, password)
+		return AuthenticationDataProvider.signIn(email, password)
 		.then(token => {
 			console.log(token);
 			if (token) {
@@ -120,6 +128,11 @@ const SignIn = () => {
 						</Link>
 					</Grid>
 				</Grid>
+				{status === '200' &&
+					<Typography component="h1" variant="h5" sx={{color: '#27db17', mt: '20px'}}>
+						{'Account successfully created!'}
+					</Typography>
+				}
 				<Copyright sx={{ mt: 5 }} />
 				</Box>
 			</Box>
