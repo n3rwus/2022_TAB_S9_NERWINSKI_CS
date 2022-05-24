@@ -8,13 +8,17 @@ interface iMainPage {
 }
 
 const MainPage = (props: iMainPage) => {
+	const {
+		token,
+	} = props;
+
 	return (
 		<React.Fragment>
 			<Navbar />
 			<Box sx={{ flexGrow: 1, width: '75%', mx: 'auto', mt: '100px' }}>
 				<Grid container spacing={10} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 					<Grid item xs={12} sm={12} md={6}>
-						<Tile text={'Add Picture'} linkTo={'/addPicture'} />
+						<Tile text={'Add Picture'} linkTo={'/addPicture/' + token} />
 					</Grid>
 					<Grid item xs={12} sm={12} md={6}>
 						<Tile text={'Gallery'} linkTo={'/gallery'} />

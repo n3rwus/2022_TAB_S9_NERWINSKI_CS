@@ -26,6 +26,9 @@ function App() {
 				<Route exact path={'/mainPage'}>
 					<MainPage />
 				</Route>
+				<Route exact path={'/addPicture/:token'} render={(props) => (
+					<AddImage token={props.match.params.token}/>)}
+				/>
 				<Route exact path={'/addPicture'}>
 					<AddImage />
 				</Route>
