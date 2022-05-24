@@ -99,10 +99,10 @@ return (
 			</Grid>
 			</Grid>
 			<Button
-			type="submit"
-			fullWidth
-			variant="contained"
-			sx={{ mt: 3, mb: 2 }}
+				type="submit"
+				fullWidth
+				variant="contained"
+				sx={{ mt: 3, mb: 2 }}
 			>
 			{'Sign Up'}
 			</Button>

@@ -3,7 +3,11 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import Tile from '../components/Tile';
 
-const MainPage = () => {
+interface iMainPage {
+	token ?: string;
+}
+
+const MainPage = (props: iMainPage) => {
 	return (
 		<React.Fragment>
 			<Navbar />

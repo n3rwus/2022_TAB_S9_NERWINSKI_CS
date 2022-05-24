@@ -30,7 +30,6 @@ export class AuthenticationDataProvider {
 				'Access-Control-Allow-Origin': '*',
 			}
 		}).then(res => {
-			console.log(res);
 			console.log(res.data);
 			data = res.data.token;
 			return data;

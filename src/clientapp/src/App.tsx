@@ -20,6 +20,9 @@ function App() {
 				<Route exact path={'/signUp'}>
 					<SingUp />
 				</Route>
+				<Route exact path={'/mainPage/:token'} render={(props) => (
+					<MainPage token={props.match.params.token}/>)}
+				/>
 				<Route exact path={'/mainPage'}>
 					<MainPage />
 				</Route>
