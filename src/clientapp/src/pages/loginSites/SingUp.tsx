@@ -36,9 +36,12 @@ const SignUp = () => {
 
 const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 	event.preventDefault();
-	return AuthenticationDataProvider.createAccount(email, password, firstName)
+	return AuthenticationDataProvider.signUp(email, password, firstName)
 	.then(res => {
 		console.log(res);
+		if (res === 200) {
+			window.location.replace("/signIn/" + res);
+		}
 	});
 };
 
@@ -99,10 +102,10 @@ return (
 			</Grid>
 			</Grid>
 			<Button
-			type="submit"
-			fullWidth
-			variant="contained"
-			sx={{ mt: 3, mb: 2 }}
+				type="submit"
+				fullWidth
+				variant="contained"
+				sx={{ mt: 3, mb: 2 }}
 			>
 			{'Sign Up'}
 			</Button>

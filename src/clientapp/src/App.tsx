@@ -14,15 +14,24 @@ function App() {
 				<Route exact path={'/'}>
 					<Redirect to="/signIn" />
 				</Route>
+				<Route exact path={'/signIn/:status'} render={(props) => (
+					<SignIn status={props.match.params.status}/>)}
+				/>
 				<Route exact path={'/signIn'}>
 					<SignIn />
 				</Route>
 				<Route exact path={'/signUp'}>
 					<SingUp />
 				</Route>
+				<Route exact path={'/mainPage/:token'} render={(props) => (
+					<MainPage token={props.match.params.token}/>)}
+				/>
 				<Route exact path={'/mainPage'}>
 					<MainPage />
 				</Route>
+				<Route exact path={'/addPicture/:token'} render={(props) => (
+					<AddImage token={props.match.params.token}/>)}
+				/>
 				<Route exact path={'/addPicture'}>
 					<AddImage />
 				</Route>

@@ -1,9 +1,9 @@
 import axios from 'axios';
 export class AuthenticationDataProvider {
 
-	public static createAccount(email: string, password: string, firstName: string) {
+	public static signUp(email: string, password: string, firstName: string) {
 		let data = 0;
-		return axios.post(`https://localhost:44303/api/User/register`, {
+		return axios.post(`http://localhost:3189/api/User/register`, {
 			email: email,
 			password: password,
 			//firstName: firstName,
@@ -18,7 +18,7 @@ export class AuthenticationDataProvider {
 		});
 	}
 
-	public static singIn(email: string, password: string) {
+	public static signIn(email: string, password: string) {
 		let data = '';
 		return axios.post(`http://localhost:3189/api/User/login`, {
 				email: email,
@@ -30,7 +30,6 @@ export class AuthenticationDataProvider {
 				'Access-Control-Allow-Origin': '*',
 			}
 		}).then(res => {
-			console.log(res);
 			console.log(res.data);
 			data = res.data.token;
 			return data;

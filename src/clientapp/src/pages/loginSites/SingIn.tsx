@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -29,17 +27,28 @@ return (
 
 const theme = createTheme();
 
-const SignIn = () => {
+interface iSignIn {
+	status?: string;
+}
+
+const SignIn = (props: iSignIn) => {
+
+	const {
+		status,
+	} = props;
 
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		return AuthenticationDataProvider.singIn(email, password)
-		.then(res => {
-			console.log(res);
-		})
+		return AuthenticationDataProvider.signIn(email, password)
+		.then(token => {
+			console.log(token);
+			if (token) {
+				window.location.replace("/mainPage/" + token);
+			}
+		});
 	};
 
 	return (
@@ -71,10 +80,10 @@ const SignIn = () => {
 				}}
 			>
 				<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-				<LockOutlinedIcon />
+					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-				Sign in
+					{'Sign in'}
 				</Typography>
 				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
 				<TextField
@@ -105,20 +114,25 @@ const SignIn = () => {
 					variant="contained"
 					sx={{ mt: 3, mb: 2 }}
 				>
-					Sign In
+					{'Sign in'}
 				</Button>
 				<Grid container>
 					<Grid item xs>
-					<Link href="#" variant="body2">
-						Forgot password?
-					</Link>
+						<Link href="#" variant="body2">
+							{'Forgot password?'}
+						</Link>
 					</Grid>
 					<Grid item>
-					<Link href="/signUp" variant="body2">
-						{"Don't have an account? Sign Up"}
-					</Link>
+						<Link href="/signUp" variant="body2">
+							{"Don't have an account? Sign Up"}
+						</Link>
 					</Grid>
 				</Grid>
+				{status === '200' &&
+					<Typography component="h1" variant="h5" sx={{color: '#27db17', mt: '20px'}}>
+						{'Account successfully created!'}
+					</Typography>
+				}
 				<Copyright sx={{ mt: 5 }} />
 				</Box>
 			</Box>
