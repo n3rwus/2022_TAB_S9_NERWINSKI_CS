@@ -6,6 +6,7 @@ import SignUp from './pages/loginSites/SignUp';
 import SignIn from './pages/loginSites/SignIn';
 import MainPage from './pages/MainPage';
 import Profile from './pages/profile/Profile';
+import Tags from './pages/profile/Tags';
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
 				/>
 				<Route exact path={'/profile/:token'} render={(props) => (
 					<Profile token={props.match.params.token}/>)}
+				/>
+				<Route exact path={'/profile/tags/:token'} render={(props) => (
+					<Tags token={props.match.params.token}/>)}
 				/>
 			</Switch>
 		</Router>
