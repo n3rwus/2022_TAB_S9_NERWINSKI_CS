@@ -1,22 +1,20 @@
 import { Box, Grid } from '@mui/material';
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Tile from '../components/Tile';
+import Navbar from '../../components/Navbar';
+import Tile from '../../components/Tile';
 
-interface iMainPage {
+interface iProfile {
 	token ?: string;
 }
 
-const MainPage = (props: iMainPage) => {
+const Profile = (props: iProfile) => {
 	const {
 		token,
 	} = props;
 
 	return (
 		<React.Fragment>
-			<Navbar 
-				token={token}
-			/>
+			<Navbar />
 			<Box sx={{ flexGrow: 1, width: '75%', mx: 'auto', mt: '100px' }}>
 				<Grid container spacing={10} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 					<Grid item xs={12} sm={12} md={6}>
@@ -38,4 +36,4 @@ const MainPage = (props: iMainPage) => {
 	);
 };
 
-export default MainPage;
+export default Profile;

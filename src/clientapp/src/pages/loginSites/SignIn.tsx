@@ -39,6 +39,7 @@ const SignIn = (props: iSignIn) => {
 
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
+	const [error, setError] = React.useState(false);
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -47,6 +48,8 @@ const SignIn = (props: iSignIn) => {
 			console.log(token);
 			if (token) {
 				window.location.replace("/mainPage/" + token);
+			} else {
+				setError(true);
 			}
 		});
 	};
@@ -86,54 +89,61 @@ const SignIn = (props: iSignIn) => {
 					{'Sign in'}
 				</Typography>
 				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-				<TextField
-					margin="normal"
-					required
-					fullWidth
-					id="email"
-					label="Email Address"
-					name="email"
-					autoComplete="email"
-					autoFocus
-					onChange={event => setEmail(event.target.value)}
-				/>
-				<TextField
-					margin="normal"
-					required
-					fullWidth
-					name="password"
-					label="Password"
-					type="password"
-					id="password"
-					autoComplete="current-password"
-					onChange={event => setPassword(event.target.value)}
-				/>
-				<Button
-					type="submit"
-					fullWidth
-					variant="contained"
-					sx={{ mt: 3, mb: 2 }}
-				>
-					{'Sign in'}
-				</Button>
-				<Grid container>
-					<Grid item xs>
-						<Link href="#" variant="body2">
-							{'Forgot password?'}
-						</Link>
+					<TextField
+						margin="normal"
+						required
+						fullWidth
+						id="email"
+						label="Email Address"
+						name="email"
+						autoComplete="email"
+						autoFocus
+						onChange={event => setEmail(event.target.value)}
+					/>
+					<TextField
+						margin="normal"
+						required
+						fullWidth
+						name="password"
+						label="Password"
+						type="password"
+						id="password"
+						autoComplete="current-password"
+						onChange={event => setPassword(event.target.value)}
+					/>
+					<Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						sx={{ mt: 3, mb: 2 }}
+					>
+						{'Sign in'}
+					</Button>
+					<Grid container>
+						<Grid item xs>
+							<Link href="#" variant="body2">
+								{'Forgot password?'}
+							</Link>
+						</Grid>
+						<Grid item>
+							<Link href="/signUp" variant="body2">
+								{"Don't have an account? Sign Up"}
+							</Link>
+						</Grid>
 					</Grid>
-					<Grid item>
-						<Link href="/signUp" variant="body2">
-							{"Don't have an account? Sign Up"}
-						</Link>
-					</Grid>
-				</Grid>
-				{status === '200' &&
-					<Typography component="h1" variant="h5" sx={{color: '#27db17', mt: '20px'}}>
-						{'Account successfully created!'}
-					</Typography>
-				}
-				<Copyright sx={{ mt: 5 }} />
+					{status === '200' &&
+						<Typography component="h1" variant="h5" sx={{color: '#27db17', mt: '20px'}}>
+							{'Account successfully created!'}
+						</Typography>
+					}
+					{error &&
+						<Typography component="h1" variant="h5" sx={{color: '#ff5252', mt: '20px'}}>
+						{'Error occurs :('}
+						<br/>
+						{'Try again later.'}
+						</Typography>
+					}
+					<Copyright sx={{ mt: 5 }} />
 				</Box>
 			</Box>
 			</Grid>
