@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import Tile from '../components/Tile';
 
 interface iMainPage {
-	token ?: string;
+	token: string;
 }
 
 const MainPage = (props: iMainPage) => {

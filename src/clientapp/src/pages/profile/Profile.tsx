@@ -5,7 +5,7 @@ import Tile from '../../components/Tile';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 interface iProfile {
-	token ?: string;
+	token: string;
 }
 
 const Profile = (props: iProfile) => {

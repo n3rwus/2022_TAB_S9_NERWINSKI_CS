@@ -3,17 +3,29 @@ import React from 'react';
 import Navbar from '../../components/Navbar';
 import PhotoLibraryRoundedIcon from '@mui/icons-material/PhotoLibraryRounded';
 import MyTextField from '../../components/TextField';
+import FolderItem from '../../components/FolderItem';
 
 interface iGallery {
-	token ?: string;
+	token: string;
 }
 
 const Gallery = (props: iGallery) => {
+	const [folders, setFolders] = React.useState(['Sentino', 'Rio', 'Midas']);
 	const [newFolder, setNewFolder] = React.useState('');
 
 	const {
 		token,
 	} = props;
+
+	const renderFolders = folders.map((folder, index) => (
+		<Grid item xs={12} sm={6} md={4}>
+			<FolderItem 
+				name={folder}
+				id={(index + 1).toString()}
+				token={token}
+			/>
+		</Grid>
+	));
 
 	return (
 		<React.Fragment>
@@ -47,8 +59,10 @@ const Gallery = (props: iGallery) => {
 					<Grid item xs={12}>
 						<hr style={{ color: '#5cabe1' }} />
 					</Grid>
+					{renderFolders}
 				</Grid>
 			</Box>
+			<div style={{ margin: '100px' }} />
 		</React.Fragment>
 	);
 };
