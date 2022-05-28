@@ -23,10 +23,10 @@ const MainPage = (props: iMainPage) => {
 						<Tile text={'Add Picture'} linkTo={'/addPicture/' + token} />
 					</Grid>
 					<Grid item xs={12} sm={12} md={6}>
-						<Tile text={'Gallery'} linkTo={'/gallery'} />
+						<Tile text={'Gallery'} linkTo={'/gallery/' + token} />
 					</Grid>
 					<Grid item xs={12} sm={12} md={6}>
-						<Tile text={'Profile'} linkTo={'/profile'} />
+						<Tile text={'Profile'} linkTo={'/profile/' + token} />
 					</Grid>
 					<Grid item xs={12} sm={12} md={6}>
 						<Tile text={'Logout'} linkTo={'/'} />

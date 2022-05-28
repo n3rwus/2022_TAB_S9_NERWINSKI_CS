@@ -30,9 +30,9 @@ function App() {
 				<Route exact path={'/addPicture/:token'} render={(props) => (
 					<AddImage token={props.match.params.token}/>)}
 				/>
-				<Route exact path={'/profile'}>
-					<Profile />
-				</Route>
+				<Route exact path={'/profile/:token'} render={(props) => (
+					<Profile token={props.match.params.token}/>)}
+				/>
 			</Switch>
 		</Router>
 	</React.Fragment>

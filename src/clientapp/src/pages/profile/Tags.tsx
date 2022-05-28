@@ -4,20 +4,18 @@ import Navbar from '../../components/Navbar';
 import Tile from '../../components/Tile';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
-interface iProfile {
+interface iTags {
 	token ?: string;
 }
 
-const Profile = (props: iProfile) => {
+const Tags = (props: iTags) => {
 	const {
 		token,
 	} = props;
 
 	return (
 		<React.Fragment>
-			<Navbar
-				token={token}
-			/>
+			<Navbar />
 			<Box sx={{ flexGrow: 1, width: '90%', mx: 'auto' }}>
 				<Grid container spacing={8} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems='center' textAlign={'center'}>
 					<Grid item xs={12}>
@@ -43,4 +41,4 @@ const Profile = (props: iProfile) => {
 	);
 };
 
-export default Profile;
+export default Tags;

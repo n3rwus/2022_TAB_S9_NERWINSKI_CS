@@ -28,7 +28,6 @@ const AddImage = (props: iAddImage) => {
 	return (
 		<React.Fragment>
 			<Navbar 
-				centerText={'Upload images'}
 				token={token}
 			 />
 			<Box sx={{ flexGrow: 1, width: '90%', mx: 'auto', mt: '100px' }}>

@@ -8,7 +8,6 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { Link } from '@mui/material';
-import { Redirect } from 'react-router-dom';
 
 interface iNavbar {
 	centerText?: string;
@@ -16,7 +15,6 @@ interface iNavbar {
 }
 
 export default function Navbar(props: iNavbar) {
-	const [auth, setAuth] = React.useState(true);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -51,8 +49,7 @@ export default function Navbar(props: iNavbar) {
 			<Typography variant="h6" component="div" textAlign={'center'} sx={{ flexGrow: 1 }}>
 				{centerText}
 			</Typography>
-			{auth && (
-				<div>
+			<div>
 				<IconButton
 					size="large"
 					aria-label="account of current user"
@@ -105,8 +102,7 @@ export default function Navbar(props: iNavbar) {
 						{'Logout'}
 					</MenuItem>
 				</Menu>
-				</div>
-			)}
+			</div>
 			</Toolbar>
 		</AppBar>
 		</Box>
