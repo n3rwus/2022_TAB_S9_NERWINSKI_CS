@@ -7,6 +7,7 @@ import SignIn from './pages/loginSites/SignIn';
 import MainPage from './pages/MainPage';
 import Profile from './pages/profile/Profile';
 import Tags from './pages/profile/Tags';
+import Privacy from './pages/profile/Privacy';
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
 				/>
 				<Route exact path={'/profile/tags/:token'} render={(props) => (
 					<Tags token={props.match.params.token}/>)}
+				/>
+				<Route exact path={'/profile/privacy/:token'} render={(props) => (
+					<Privacy token={props.match.params.token}/>)}
 				/>
 			</Switch>
 		</Router>

@@ -34,7 +34,7 @@ const Tags = (props: iTags) => {
 					<Grid item xs={9}>
 						<MyTextField 
 							id={'newTag'} 
-							label={'Add Tag'} 
+							label={'Add tag'} 
 							fullwidth={true}
 							value={newTag}
 							onChange={setNewTag}
