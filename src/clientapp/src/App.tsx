@@ -8,6 +8,7 @@ import MainPage from './pages/MainPage';
 import Profile from './pages/profile/Profile';
 import Tags from './pages/profile/Tags';
 import Privacy from './pages/profile/Privacy';
+import Gallery from './pages/galery/Gallery';
 
 function App() {
   return (
@@ -31,6 +32,9 @@ function App() {
 				/>
 				<Route exact path={'/addPicture/:token'} render={(props) => (
 					<AddImage token={props.match.params.token}/>)}
+				/>
+				<Route exact path={'/gallery/:token'} render={(props) => (
+					<Gallery token={props.match.params.token}/>)}
 				/>
 				<Route exact path={'/profile/:token'} render={(props) => (
 					<Profile token={props.match.params.token}/>)}

@@ -77,7 +77,7 @@ const AddImage = (props: iAddImage) => {
 				</Grid>
 				</Grid>
 			</Box>
-			<hr style={{ margin: '30px' }} />
+			<hr style={{ margin: '30px', color: '#5cabe1' }} />
 			<Box sx={{ flexGrow: 1, width: '90%', mx: 'auto', mt: '100px' }}>
 				<Grid container spacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 					{images && Array.from(images).map((image, index) => <UploadImageCard key={index} image={image} index={index} />)}
