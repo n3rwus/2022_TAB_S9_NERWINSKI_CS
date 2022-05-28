@@ -11,15 +11,15 @@ const { text, linkTo } = props;
 
 return (
 	<React.Fragment>
-		<Link href={linkTo} underline={'none'}>
-			<Card sx={{ height: 240, mx: '40px' }} elevation={2}>
+		<Card sx={{ height: 240, mx: '40px' }} elevation={2}>
+			<Link href={linkTo} underline={'none'}>
 				<CardContent sx={{ height: 240 }}>
 					<Typography align="center" sx={{ fontSize: 24, mt: '82px', color: '#1976d2' }}>
 						{text}
 					</Typography>
 				</CardContent>
-			</Card>
-		</Link>
+			</Link>
+		</Card>
 	</React.Fragment>
 );
 };
