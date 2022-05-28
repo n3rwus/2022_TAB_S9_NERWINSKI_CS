@@ -1,25 +1,19 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import React from 'react';
 import Navbar from '../../components/Navbar';
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import PhotoLibraryRoundedIcon from '@mui/icons-material/PhotoLibraryRounded';
 import MyTextField from '../../components/TextField';
-import TagItem from '../../components/TagItem';
 
-interface iTags {
+interface iGallery {
 	token ?: string;
 }
 
-const Tags = (props: iTags) => {
-	const [tags, changeTags] = React.useState<string[]>(['Piotrek', 'Adam', 'Mikołaj', 'Michał']);
-	const [newTag, setNewTag] = React.useState('');
+const Gallery = (props: iGallery) => {
+	const [newFolder, setNewFolder] = React.useState('');
 
 	const {
 		token,
 	} = props;
-
-	const renderTags = tags.map(tag => (
-		<TagItem name={tag}/>
-	));
 
 	return (
 		<React.Fragment>
@@ -29,20 +23,20 @@ const Tags = (props: iTags) => {
 			<Box sx={{ flexGrow: 1, width: '80%', mx: 'auto' }}>
 				<Grid container spacing={8} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems='center' textAlign={'center'}>
 					<Grid item xs={12}>
-						<AccountCircleRoundedIcon sx={{fontSize: '150px', color: '#1976d2', mt: '50px'}}/>
+						<PhotoLibraryRoundedIcon sx={{fontSize: '150px', color: '#1976d2', mt: '50px'}}/>
 					</Grid>
 					<Grid item xs={12}>
 						<Typography component="h1" variant="h5" sx={{color: '#1976d2'}}>
-							{'User\'s tags'}
+							{'User\'s gallery'}
 						</Typography>
 					</Grid>
 					<Grid item xs={9}>
 						<MyTextField 
-							id={'newTag'} 
-							label={'Add tag'} 
+							id={'newFolder'} 
+							label={'Add folder'} 
 							fullwidth={true}
-							value={newTag}
-							onChange={setNewTag}
+							value={newFolder}
+							onChange={setNewFolder}
 						/>
 					</Grid>
 					<Grid item xs={3}>
@@ -53,11 +47,10 @@ const Tags = (props: iTags) => {
 					<Grid item xs={12}>
 						<hr style={{ color: '#5cabe1' }} />
 					</Grid>
-					{renderTags}
 				</Grid>
 			</Box>
 		</React.Fragment>
 	);
 };
 
-export default Tags;
+export default Gallery;
