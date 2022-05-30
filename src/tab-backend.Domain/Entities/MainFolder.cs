@@ -8,19 +8,17 @@ using System.Threading.Tasks;
 
 namespace tab_backend.Domain.Entities
 {
-    [Table("Categories")]
-    public class Category
+    [Table("MainFolder")]
+    public class MainFolder
     {
         [Key]
         public int ID { get; set; }
-        [Required]
-        public string Name { get; set; }
-        public string Description { get; set; }
 
         public int UserID { get; set; }
+
         [Required]
         public User User { get; set; }
-        public IEnumerable<ImageCategory> ImageCategory { get; set; }
-        
+
+        public IEnumerable<Folder> Folders { get; set; }
     }
 }

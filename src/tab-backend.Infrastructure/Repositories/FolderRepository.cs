@@ -50,7 +50,7 @@ namespace tab_backend.Infrastructure.Repositories
 
         public IEnumerable<Folder> GetUserFolders(User user)
         {
-            return _context.Folders.Where(x => x.User == user);
+            return _context.Folders.Where(x => x.MainFolder.User == user);
         }
 
         public void UpdateFolder(Folder folder)

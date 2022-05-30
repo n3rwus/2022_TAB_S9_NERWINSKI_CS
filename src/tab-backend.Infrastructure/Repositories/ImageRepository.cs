@@ -41,12 +41,12 @@ namespace tab_backend.Infrastructure.Repositories
 
         public IEnumerable<Image> GetFolderImage(Folder folder)
         {
-            return _context.Images.Where(x => x.Folders.Any(f => f.ID == folder.ID) == true);
+            return _context.Images.Where(x => x.ImageFolder.Any(f => f.FolderID == folder.ID) == true);
         }
 
         public IEnumerable<Image> GetImageByCategory(Category category)
         {
-            return _context.Images.Where(x => x.Categories.Any(c=>c.ID==category.ID) == true);
+            return _context.Images.Where(x => x.ImageCategory.Any(c=>c.CategoryID==category.ID) == true);
         }
 
         public IEnumerable<Image> GetImageByDate(DateTime date)

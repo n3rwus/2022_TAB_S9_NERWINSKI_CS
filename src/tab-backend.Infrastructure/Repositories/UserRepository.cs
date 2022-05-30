@@ -11,11 +11,11 @@ namespace tab_backend.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private static readonly ISet<User> _users = new HashSet<User>()
-        {
-            new User(1, "123456789", "admin@test.com", "admin", new DateTime(2022,1,1)),
-            new User(2, "987654321", "user@test.com", "user", new DateTime(2022,2,2))
-        };
+        //private static readonly ISet<User> _users = new HashSet<User>()
+        //{
+        //    new User(1, "Admin", "admin@test.com", "admin", new DateTime(2022,1,1)),
+        //    new User(2, "User", "user@test.com", "user", new DateTime(2022,2,2))
+        //};
         private readonly TabContext _context;
 
         public UserRepository(TabContext context)
@@ -24,17 +24,17 @@ namespace tab_backend.Infrastructure.Repositories
         }
         public IEnumerable<User> GetAll()
         {
-            return _users;
+            return _context.Users;
         }
 
         public User GetUserByID(int id)
         {
-            return _users.FirstOrDefault(x => x.ID == id);
+            return _context.Users.FirstOrDefault(x => x.ID == id);
         }
 
         public User Login(User requestUser)
         {
-            var user = _users.SingleOrDefault(x => x.Email == requestUser.Email && x.Password == requestUser.Password);
+            var user = _context.Users.SingleOrDefault(x => x.Email == requestUser.Email && x.Password == requestUser.Password);
 
             // return null if user not found
             if (user == null) return null;
@@ -44,9 +44,10 @@ namespace tab_backend.Infrastructure.Repositories
 
         public User Register(User user)
         {
-            user.ID = _users.Count() + 1;
+            //user.ID = _context.Users.Count() + 1;
             user.RegisterDate = DateTime.UtcNow;
-            _users.Add(user);
+            _context.Users.Add(user);
+            _context.SaveChanges();
 
             return user;
         }
