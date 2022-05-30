@@ -8,21 +8,14 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { Link } from '@mui/material';
-import { Redirect } from 'react-router-dom';
 
 interface iNavbar {
 	centerText?: string;
+	token?: string;
 }
 
 export default function Navbar(props: iNavbar) {
-	const [auth, setAuth] = React.useState(true);
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-	const [redirect, setRedirect] = React.useState(false);
-	const [linkTo, setLinkTo] = React.useState('');
-
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setAuth(event.target.checked);
-	};
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -34,22 +27,21 @@ export default function Navbar(props: iNavbar) {
 
 	const handleClick = (event: any) => {
 		handleClose();
+		event.preventDefault();
 		const { myValue } = event.currentTarget.dataset;
-		// eslint-disable-next-line no-console
-		console.log(myValue);
-		if (myValue) {
-		setLinkTo(myValue);
-		setRedirect(true);
-		}
+		window.location.replace(myValue + (myValue !== '/' ? token : ""));
 	};
 
-	const { centerText } = props;
+	const { 
+		centerText,
+		token,
+	} = props;
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 		<AppBar position="static" sx={{ backgroundColor: '#1976d2' }}>
 			<Toolbar>
-			<Link href={'/mainPage'} underline={'none'}>
+			<Link href={'/mainPage/' + token} underline={'none'}>
 				<Typography variant="h6" component="div" sx={{ flexGrow: 1, color: '#FFF' }}>
 				{'Picture Drive App'}
 				</Typography>
@@ -57,8 +49,7 @@ export default function Navbar(props: iNavbar) {
 			<Typography variant="h6" component="div" textAlign={'center'} sx={{ flexGrow: 1 }}>
 				{centerText}
 			</Typography>
-			{auth && (
-				<div>
+			<div>
 				<IconButton
 					size="large"
 					aria-label="account of current user"
@@ -86,18 +77,34 @@ export default function Navbar(props: iNavbar) {
 					open={Boolean(anchorEl)}
 					onClose={handleClose}
 				>
-					<MenuItem onClick={handleClick} data-my-value={'/addPicture'}>
-					{'Add Picture'}
+					<MenuItem 
+						onClick={handleClick} 
+						data-my-value={'/addPicture/'}
+					>
+						{'Add Picture'}
 					</MenuItem>
-					<MenuItem onClick={handleClose}>{'Profile'}</MenuItem>
-					<MenuItem onClick={handleClose}>{'Gallery'}</MenuItem>
-					<MenuItem onClick={handleClose}>{'Logout'}</MenuItem>
+					<MenuItem 
+						onClick={handleClick} 
+						data-my-value={'/profile/'}
+					>
+						{'Profile'}
+					</MenuItem>
+					<MenuItem 
+						onClick={handleClick} 
+						data-my-value={'/gallery/'}
+					>
+						{'Gallery'}
+					</MenuItem>
+					<MenuItem 
+						onClick={handleClick} 
+						data-my-value={'/'}
+					>
+						{'Logout'}
+					</MenuItem>
 				</Menu>
-				</div>
-			)}
+			</div>
 			</Toolbar>
 		</AppBar>
-		{redirect ? <Redirect push to={linkTo} /> : null}
 		</Box>
 	);
 }

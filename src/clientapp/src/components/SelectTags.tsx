@@ -8,6 +8,11 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 
+interface iSelectTags {
+	tags: string[];
+	onTagsChange: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
@@ -20,25 +25,28 @@ const MenuProps = {
 	},
 };
 
-const tags = ['Holidays', 'Winter'];
-
 function getStyles(tag: string, tagName: readonly string[], theme: Theme) {
 	return {
 		fontWeight: tagName.indexOf(tag) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
 	};
 }
 
-const SelectTags = () => {
+const SelectTags = (props: iSelectTags) => {
+	const {
+		tags,
+		onTagsChange,
+	} = props;
+
 	const theme = useTheme();
 	const [tagName, setPersonName] = React.useState<string[]>([]);
 	const handleChange = (event: SelectChangeEvent<typeof tagName>) => {
 		const {
 		target: { value },
 		} = event;
-		setPersonName(
-		// On autofill we get a stringified value.
-		typeof value === 'string' ? value.split(',') : value
-		);
+	
+		setPersonName(typeof value === 'string' ? value.split(',') : value);
+		onTagsChange(typeof value === 'string' ? value.split(',') : value);
+		
 	};
 
 	return (

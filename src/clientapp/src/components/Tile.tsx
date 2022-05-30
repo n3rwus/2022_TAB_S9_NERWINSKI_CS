@@ -7,21 +7,21 @@ interface iTile {
 }
 
 const Tile = (props: iTile) => {
-const { text, linkTo } = props;
+	const { text, linkTo } = props;
 
-return (
-	<React.Fragment>
-		<Link href={linkTo} underline={'none'}>
+	return (
+		<React.Fragment>
 			<Card sx={{ height: 240, mx: '40px' }} elevation={2}>
-				<CardContent sx={{ height: 240 }}>
-					<Typography align="center" sx={{ fontSize: 24, mt: '82px', color: '#1976d2' }}>
-						{text}
-					</Typography>
-				</CardContent>
+				<Link href={linkTo} underline={'none'}>
+					<CardContent sx={{ height: 240 }}>
+						<Typography align="center" sx={{ fontSize: 24, mt: '82px', color: '#1976d2' }}>
+							{text}
+						</Typography>
+					</CardContent>
+				</Link>
 			</Card>
-		</Link>
-	</React.Fragment>
-);
+		</React.Fragment>
+	);
 };
 
 export default Tile;

@@ -22,6 +22,7 @@ namespace tab_backend.WebAPI.Controllers
             _userService = userService;
         }
 
+
         [SwaggerOperation(Summary = "Login")]
         [HttpPost("login")]
         public IActionResult Login(UserRequestDTO model)
