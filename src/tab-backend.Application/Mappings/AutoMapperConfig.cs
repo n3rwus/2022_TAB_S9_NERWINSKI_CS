@@ -14,7 +14,7 @@ namespace tab_backend.Application.Mappings
         public static IMapper Initialize()
             => new MapperConfiguration(cfg => {
                 cfg.CreateMap<User, UserDTO>();
-                cfg.CreateMap<UserRequestDTO, User>();
+                cfg.CreateMap<UserLoginDTO, User>();
                 cfg.CreateMap<User, UserResponseDTO>();
                 cfg.CreateMap<Image, ImageDTO>();
                 cfg.CreateMap<Category, CategoryDTO>();

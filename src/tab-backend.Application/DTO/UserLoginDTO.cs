@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace tab_backend.Application.DTO
 {
-    public class UserRequestDTO
+    public class UserLoginDTO
     {
-        public string FirstName { get; set; }
+//        public string FirstName { get; set; }
 
         public string Email { get; set; }
 

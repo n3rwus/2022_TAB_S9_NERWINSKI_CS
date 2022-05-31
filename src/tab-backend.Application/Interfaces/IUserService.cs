@@ -9,9 +9,9 @@ namespace tab_backend.Application.Interfaces
 {
     public interface IUserService
     {
-        UserResponseDTO Login(UserRequestDTO userRequestDTO);
+        UserResponseDTO Login(UserLoginDTO userRequestDTO);
 
-        UserResponseDTO Register(UserRequestDTO userRequestDTO);
+        UserResponseDTO Register(UserLoginDTO userRequestDTO);
 
         IEnumerable<UserDTO> GetAll();
 

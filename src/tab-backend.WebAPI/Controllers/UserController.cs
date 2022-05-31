@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -25,7 +26,7 @@ namespace tab_backend.WebAPI.Controllers
 
         [SwaggerOperation(Summary = "Login")]
         [HttpPost("login")]
-        public IActionResult Login(UserRequestDTO model)
+        public IActionResult Login(UserLoginDTO model)
         {
             var response = _userService.Login(model);
 
@@ -38,7 +39,7 @@ namespace tab_backend.WebAPI.Controllers
 
         [SwaggerOperation(Summary = "Register")]
         [HttpPost("register")]
-        public IActionResult Register(UserRequestDTO model)
+        public IActionResult Register(UserRegisterDTO model)
         {
             var response = _userService.Register(model);
 

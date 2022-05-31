@@ -44,7 +44,7 @@ namespace tab_backend.Infrastructure.Repositories
 
         public User Register(User user)
         {
-            //user.ID = _context.Users.Count() + 1;
+            user.ID = _context.Users.Count() + 1;
             user.RegisterDate = DateTime.UtcNow;
             _context.Users.Add(user);
             _context.SaveChanges();

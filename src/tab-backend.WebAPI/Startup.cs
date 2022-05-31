@@ -65,7 +65,8 @@ namespace tab_backend.WebAPI
                         {
                             policy.WithOrigins("http://localhost:3000/")
                             .AllowAnyHeader()
-                            .AllowAnyMethod();
+                            .AllowAnyMethod()
+                            .AllowAnyOrigin();
                         });
                 }
             );
@@ -117,14 +118,15 @@ namespace tab_backend.WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(MyAllowSpecificOrigins);
-
+        
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "tab_backend.WebAPI v1"));
             }
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseHttpsRedirection();
 

@@ -39,7 +39,7 @@ namespace tab_backend.Application.Services
             return _mapper.Map<UserDTO>(user);
         }
 
-        public UserResponseDTO Login(UserRequestDTO userRequestDTO)
+        public UserResponseDTO Login(UserLoginDTO userRequestDTO)
         {
             var userLogin = _mapper.Map<User>(userRequestDTO);
 
@@ -53,7 +53,7 @@ namespace tab_backend.Application.Services
             return userRegister;
         }
 
-        public UserResponseDTO Register(UserRequestDTO userRequestDTO)
+        public UserResponseDTO Register(UserLoginDTO userRequestDTO)
         {
             var newUser = _mapper.Map<User>(userRequestDTO);
             var user = _userRepository.Register(newUser);
