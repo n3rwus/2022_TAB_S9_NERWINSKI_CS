@@ -12,6 +12,7 @@ namespace tab_backend.Domain.Entities
     public class Image
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         [Required]
         [MaxLength(100)]
