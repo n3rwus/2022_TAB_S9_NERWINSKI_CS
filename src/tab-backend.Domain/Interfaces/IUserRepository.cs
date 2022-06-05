@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using tab_backend.Domain.Entities;
+using tab_backend.Domain.DTO;
 
 namespace tab_backend.Domain.Interfaces
 {
     public interface IUserRepository
     {
-        User Login(User requestUser);
+        User LoginRepository(User requestUser);
 
-        User Register(User requestUser);
+        User RegisterRepository(UserRegisterDTO requestUser);
 
-        IEnumerable<User> GetAll();
+        IEnumerable<User> GetAllRepository();
 
-        User GetUserByID(int id);
+        User GetUserByIdRepository(int id);
     }
 }

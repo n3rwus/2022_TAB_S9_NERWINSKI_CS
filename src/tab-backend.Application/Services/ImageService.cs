@@ -40,7 +40,7 @@ namespace tab_backend.Application.Services
             var imageDto = _mapper.Map<ImageDTO>(image);
 
             imageDto.Categories = categories;
-            imageDto.User = _userService.GetUserByID(image.UserID);
+            imageDto.User = _userService.GetUserByIdService(image.UserID);
             var folder = _folderService.GetFolderByID(image.FolderID);
             imageDto.Folders = new List<FolderDTO>() { folder };
 

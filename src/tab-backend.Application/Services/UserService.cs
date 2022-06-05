@@ -25,42 +25,42 @@ namespace tab_backend.Application.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<UserDTO> GetAll()
+        public IEnumerable<UserDTO> GetAllService()
         {
-            var users = _userRepository.GetAll();
+            var users = _userRepository.GetAllRepository();
 
             return _mapper.Map<IEnumerable<UserDTO>>(users);
         }
 
-        public UserDTO GetUserByID(int id)
+        public UserDTO GetUserByIdService(int id)
         {
-            var user = _userRepository.GetUserByID(id);
+            var user = _userRepository.GetUserByIdRepository(id);
 
             return _mapper.Map<UserDTO>(user);
         }
 
-        public UserResponseDTO Login(UserLoginDTO userRequestDTO)
+        public Token LoginService(UserLoginDTO userRequestDTO)
         {
             var userLogin = _mapper.Map<User>(userRequestDTO);
 
-            var user = _userRepository.Login(userLogin);
+            var user = _userRepository.LoginRepository(userLogin);
 
             if (user == null) return null;
 
-            var userRegister = _mapper.Map<UserResponseDTO>(user);
+            var userRegister = _mapper.Map<Token>(user);
 
-            userRegister.Token = GenerateJwtToken(user);
+            userRegister.JWToken = GenerateJwtToken(user);
             return userRegister;
         }
 
-        public UserResponseDTO Register(UserLoginDTO userRequestDTO)
+        public Token RegisterService(UserRegisterDTO userRequestDTO)
         {
             var newUser = _mapper.Map<User>(userRequestDTO);
-            var user = _userRepository.Register(newUser);
+            var user = _userRepository.RegisterRepository(newUser);
 
             if (user == null) return null;
 
-            var userRegister = _mapper.Map<UserResponseDTO>(user);
+            var userRegister = _mapper.Map<Token>(user);
 
             return userRegister;
         }

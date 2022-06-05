@@ -24,11 +24,11 @@ namespace tab_backend.WebAPI.Controllers
         }
 
 
-        [SwaggerOperation(Summary = "Login")]
+        [SwaggerOperation(Summary = "LoginRepository")]
         [HttpPost("login")]
         public IActionResult Login(UserLoginDTO model)
         {
-            var response = _userService.Login(model);
+            var response = _userService.LoginService(model);
 
             if (response == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -37,11 +37,11 @@ namespace tab_backend.WebAPI.Controllers
         }
 
 
-        [SwaggerOperation(Summary = "Register")]
+        [SwaggerOperation(Summary = "RegisterRepository")]
         [HttpPost("register")]
         public IActionResult Register(UserRegisterDTO model)
         {
-            var response = _userService.Register(model);
+            var response = _userService.RegisterService(model);
 
             if (response == null)
                 return BadRequest(new { message = "something went wrong" });
@@ -53,7 +53,7 @@ namespace tab_backend.WebAPI.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var users = _userService.GetAll();
+            var users = _userService.GetAllService();
             return Ok(users);
         }
 

@@ -34,6 +34,14 @@ namespace tab_backend.Domain.Entities
             
         }
 
+        public User(string firstName, string email)
+        {
+
+            FirstName = firstName;
+            Email = email;
+
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }

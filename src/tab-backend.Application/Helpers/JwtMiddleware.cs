@@ -50,7 +50,7 @@ namespace tab_backend.Application.Helpers
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
                 // attach user to context on successful jwt validation
-                context.Items["User"] = userService.GetUserByID(userId);
+                context.Items["User"] = userService.GetUserByIdService(userId);
             }
             catch
             {

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using tab_backend.Domain.Entities;
 using tab_backend.Domain.Interfaces;
 using tab_backend.Infrastructure.Data;
+using tab_backend.Domain.DTO;
+using tab_backend.Domain;
 
 namespace tab_backend.Infrastructure.Repositories
 {
@@ -22,17 +24,17 @@ namespace tab_backend.Infrastructure.Repositories
         {
             _context = context;
         }
-        public IEnumerable<User> GetAll()
+        public IEnumerable<User> GetAllRepository()
         {
             return _context.Users;
         }
 
-        public User GetUserByID(int id)
+        public User GetUserByIdRepository(int id)
         {
             return _context.Users.FirstOrDefault(x => x.ID == id);
         }
 
-        public User Login(User requestUser)
+        public User LoginRepository(User requestUser)
         {
             var user = _context.Users.SingleOrDefault(x => x.Email == requestUser.Email && x.Password == requestUser.Password);
 
@@ -42,9 +44,12 @@ namespace tab_backend.Infrastructure.Repositories
             return user;
         }
 
-        public User Register(User user)
+        public User RegisterRepository(UserRegisterDTO registerUser)
         {
-            user.ID = _context.Users.Count() + 1;
+            /*user.ID = _context.Users.Count() + 1;*/
+            User user = new User(registerUser.FirstName, registerUser.Email);
+            PasswordHash hash = new PasswordHash(registerUser.Password);
+            user.Password = Convert.ToBase64String(hash.ToArray());
             user.RegisterDate = DateTime.UtcNow;
             _context.Users.Add(user);
             _context.SaveChanges();

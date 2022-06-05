@@ -13,9 +13,10 @@ namespace tab_backend.Application.Mappings
     {
         public static IMapper Initialize()
             => new MapperConfiguration(cfg => {
+                cfg.CreateMap<UserRegisterDTO, User>();
                 cfg.CreateMap<User, UserDTO>();
                 cfg.CreateMap<UserLoginDTO, User>();
-                cfg.CreateMap<User, UserResponseDTO>();
+                cfg.CreateMap<User, Token>();
                 cfg.CreateMap<Image, ImageDTO>();
                 cfg.CreateMap<Category, CategoryDTO>();
                 cfg.CreateMap<Folder, FolderDTO>();
