@@ -12,6 +12,7 @@ namespace tab_backend.Domain.Entities
     public class MainFolder
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         public int UserID { get; set; }

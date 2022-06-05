@@ -12,6 +12,7 @@ namespace tab_backend.Domain.Entities
     public class Folder
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         [Required]
         public string Name { get; set; }
