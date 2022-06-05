@@ -25,6 +25,15 @@ namespace tab_backend.Domain.Entities
             RegisterDate = registerDate;
         }
 
+        public User(string firstName, string email, string password)
+        {
+           
+            FirstName = firstName;
+            Email = email;
+            Password = password;
+            
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
