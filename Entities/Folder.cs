@@ -1,7 +1,10 @@
-﻿namespace TABv3.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TABv3.Entities
 {
     public class Folder
     {
+        [Key]
         public int Id { get; set; }
         public string FolderName { get; set; }
         public string? FolderDescription { get; set; }

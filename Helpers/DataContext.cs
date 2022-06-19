@@ -21,21 +21,72 @@ namespace TABv3.Helpers
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ImageCategory>()
-                .HasKey(ic => new { ic.ImageId, ic.CategoryId });
+            //Image - Folder
+            modelBuilder.Entity<ImageFolder>().HasKey(x => new {x.ImageId, x.FolderId });
 
-            modelBuilder.Entity<ImageCategory>()
-                .HasOne(ic => ic.Image)
-                .WithMany(i => i.ImageCategories)
-                .HasForeignKey(ic => ic.ImageId)
+            modelBuilder.Entity<ImageFolder>()
+                .HasOne<Folder>(f => f.Folder)
+                .WithMany(x => x.ImageFolder)
+                .HasForeignKey(e => e.FolderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<ImageFolder>()
+               .HasOne<Image>(i => i.Image)
+               .WithMany(x => x.ImageFolders)
+               .HasForeignKey(e => e.ImageId)
+               .OnDelete(DeleteBehavior.NoAction);
+
+            //Image - Category
+            modelBuilder.Entity<ImageCategory>().HasKey(x => new { x.ImageId, x.CategoryId });
+
             modelBuilder.Entity<ImageCategory>()
-                .HasOne(ic => ic.Category)
-                .WithMany(c => c.ImageCategories)
-                .HasForeignKey(ic => ic.CategoryId)
+                .HasOne<Category>(c => c.Category)
+                .WithMany(x => x.ImageCategories)
+                .HasForeignKey(e => e.CategoryId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ImageCategory>()
+               .HasOne<Image>(i => i.Image)
+               .WithMany(x => x.ImageCategories)
+               .HasForeignKey(e => e.ImageId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            //MainFolder - Account
+            modelBuilder.Entity<MainFolder>()
+                .HasOne<Account>(u => u.Account)
+                .WithOne(f => f.Folder)
+                .HasForeignKey<MainFolder>(u => u.AccountId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            //MainFolder - Folder
+            modelBuilder.Entity<Folder>()
+                .HasOne<MainFolder>(u => u.MainFolder)
+                .WithMany(i => i.Folders)
+                .HasForeignKey(u => u.MainFolderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //Folder - Folder
+            modelBuilder.Entity<Folder>()
+                .HasOne<Folder>(f => f.ParentFolder)
+                .WithMany(i => i.Folders)
+                .HasForeignKey(u => u.ParentFolderId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            //Image - Account
+            modelBuilder.Entity<Image>()
+                .HasOne<Account>(u => u.Account)
+                .WithMany(i => i.Images)
+                .HasForeignKey(u => u.AccountId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //Account - Category
+            modelBuilder.Entity<Category>()
+                .HasOne<Account>(u => u.Account)
+                .WithMany(i => i.Categories)
+                .HasForeignKey(u => u.AccountId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            base.OnModelCreating(modelBuilder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
