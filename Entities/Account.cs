@@ -16,7 +16,11 @@
         public DateTime? PasswordReset { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
-        public List<RefreshToken> RefreshTokens { get; set; }
+        public List<RefreshToken>? RefreshTokens { get; set; }
+        public ICollection<Image> Images { get; set; }
+        public MainFolder Folder { get; set; }
+        public ICollection<Category> Categories { get; set; }
+
 
         public bool OwnsToken(string token)
         {

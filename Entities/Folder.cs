@@ -5,11 +5,11 @@
         public int Id { get; set; }
         public string FolderName { get; set; }
         public string? FolderDescription { get; set; }
-        public int? ParentFolderId { get; set; }
-        public virtual Folder ParentFolder { get; set; }
-        public virtual ICollection<Folder> ChildrenFolder { get; set; }
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
-
+        public int MainFolderId { get; set; }
+        public MainFolder MainFolder { get; set; }
+        public int ParentFolderId { get; set; }
+        public Folder ParentFolder { get; set; }
+        public ICollection<ImageFolder> ImageFolder { get; set; }
+        public ICollection<Folder> Folders { get; set; }
     }
 }

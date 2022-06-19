@@ -9,6 +9,9 @@
         public int? ImageSize { get; set; }
         public string? ImageFormat { get; set; }
         public DateTime ImageDateOfCreate { get; set; }
+        public int AccountId { get; set; }
+        public Account Account { get; set; }
+        public ICollection<ImageFolder> ImageFolders { get; set; }
         public ICollection<ImageCategory> ImageCategories { get; set; }
     }
 }
