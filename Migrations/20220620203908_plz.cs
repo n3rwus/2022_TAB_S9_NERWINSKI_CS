@@ -4,38 +4,31 @@
 
 namespace TABv3.Migrations
 {
-    public partial class DBv3 : Migration
+    public partial class plz : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Folders_MainFolders_MainFolderId",
+                name: "FK_Folders_Folders_ParentFolderId",
+                table: "Folders");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Folders_ParentFolderId",
                 table: "Folders");
 
             migrationBuilder.AlterColumn<int>(
-                name: "MainFolderId",
+                name: "ParentFolderId",
                 table: "Folders",
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
                 oldType: "int");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Folders_MainFolders_MainFolderId",
-                table: "Folders",
-                column: "MainFolderId",
-                principalTable: "MainFolders",
-                principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Folders_MainFolders_MainFolderId",
-                table: "Folders");
-
             migrationBuilder.AlterColumn<int>(
-                name: "MainFolderId",
+                name: "ParentFolderId",
                 table: "Folders",
                 type: "int",
                 nullable: false,
@@ -44,11 +37,16 @@ namespace TABv3.Migrations
                 oldType: "int",
                 oldNullable: true);
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Folders_MainFolders_MainFolderId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Folders_ParentFolderId",
                 table: "Folders",
-                column: "MainFolderId",
-                principalTable: "MainFolders",
+                column: "ParentFolderId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Folders_Folders_ParentFolderId",
+                table: "Folders",
+                column: "ParentFolderId",
+                principalTable: "Folders",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }

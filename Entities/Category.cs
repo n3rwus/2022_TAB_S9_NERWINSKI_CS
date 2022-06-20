@@ -6,6 +6,6 @@
         public string CategoryName { get; set; }
         public int AccountId { get; set; }
         public  Account Account { get; set; }
-        public ICollection<ImageCategory> ImageCategories { get; set; }
+        public ICollection<Image> Images { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TABv3.Helpers;
 
@@ -11,9 +12,10 @@ using TABv3.Helpers;
 namespace TABv3.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220620204051_plz3")]
+    partial class plz3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,8 +132,7 @@ namespace TABv3.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ParentFolderId")
-                        .IsRequired()
+                    b.Property<int>("ParentFolderId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -280,7 +281,7 @@ namespace TABv3.Migrations
                     b.HasOne("TABv3.Entities.Folder", "ParentFolder")
                         .WithMany("ChildrenFolders")
                         .HasForeignKey("ParentFolderId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Account");

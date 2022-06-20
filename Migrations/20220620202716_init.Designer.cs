@@ -12,17 +12,32 @@ using TABv3.Helpers;
 namespace TABv3.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220619104718_lol")]
-    partial class lol
+    [Migration("20220620202716_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("CategoryImage", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ImagesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoriesId", "ImagesId");
+
+                    b.HasIndex("ImagesId");
+
+                    b.ToTable("CategoryImage");
+                });
 
             modelBuilder.Entity("TABv3.Entities.Account", b =>
                 {
@@ -107,6 +122,9 @@ namespace TABv3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FolderDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -114,15 +132,13 @@ namespace TABv3.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MainFolderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ParentFolderId")
+                    b.Property<int?>("ParentFolderId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MainFolderId");
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("ParentFolderId");
 
@@ -138,6 +154,9 @@ namespace TABv3.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FolderId")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("ImageData")
@@ -164,56 +183,24 @@ namespace TABv3.Migrations
 
                     b.HasIndex("AccountId");
 
+                    b.HasIndex("FolderId");
+
                     b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("TABv3.Entities.ImageCategory", b =>
+            modelBuilder.Entity("CategoryImage", b =>
                 {
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
+                    b.HasOne("TABv3.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ImageId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("ImageCategories");
-                });
-
-            modelBuilder.Entity("TABv3.Entities.ImageFolder", b =>
-                {
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FolderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ImageId", "FolderId");
-
-                    b.HasIndex("FolderId");
-
-                    b.ToTable("ImageFolder");
-                });
-
-            modelBuilder.Entity("TABv3.Entities.MainFolder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.ToTable("MainFolders");
+                    b.HasOne("TABv3.Entities.Image", null)
+                        .WithMany()
+                        .HasForeignKey("ImagesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TABv3.Entities.Account", b =>
@@ -286,19 +273,19 @@ namespace TABv3.Migrations
 
             modelBuilder.Entity("TABv3.Entities.Folder", b =>
                 {
-                    b.HasOne("TABv3.Entities.MainFolder", "MainFolder")
+                    b.HasOne("TABv3.Entities.Account", "Account")
                         .WithMany("Folders")
-                        .HasForeignKey("MainFolderId")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TABv3.Entities.Folder", "ParentFolder")
-                        .WithMany("Folders")
+                        .WithMany("Children")
                         .HasForeignKey("ParentFolderId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MainFolder");
+                    b.Navigation("Account");
 
                     b.Navigation("ParentFolder");
                 });
@@ -311,90 +298,31 @@ namespace TABv3.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("TABv3.Entities.ImageCategory", b =>
-                {
-                    b.HasOne("TABv3.Entities.Category", "Category")
-                        .WithMany("ImageCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("TABv3.Entities.Image", "Image")
-                        .WithMany("ImageCategories")
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("TABv3.Entities.ImageFolder", b =>
-                {
                     b.HasOne("TABv3.Entities.Folder", "Folder")
-                        .WithMany("ImageFolder")
+                        .WithMany("Images")
                         .HasForeignKey("FolderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TABv3.Entities.Image", "Image")
-                        .WithMany("ImageFolders")
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                    b.Navigation("Account");
 
                     b.Navigation("Folder");
-
-                    b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("TABv3.Entities.MainFolder", b =>
-                {
-                    b.HasOne("TABv3.Entities.Account", "Account")
-                        .WithOne("Folder")
-                        .HasForeignKey("TABv3.Entities.MainFolder", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("TABv3.Entities.Account", b =>
                 {
                     b.Navigation("Categories");
 
-                    b.Navigation("Folder")
-                        .IsRequired();
+                    b.Navigation("Folders");
 
                     b.Navigation("Images");
                 });
 
-            modelBuilder.Entity("TABv3.Entities.Category", b =>
-                {
-                    b.Navigation("ImageCategories");
-                });
-
             modelBuilder.Entity("TABv3.Entities.Folder", b =>
                 {
-                    b.Navigation("Folders");
+                    b.Navigation("Children");
 
-                    b.Navigation("ImageFolder");
-                });
-
-            modelBuilder.Entity("TABv3.Entities.Image", b =>
-                {
-                    b.Navigation("ImageCategories");
-
-                    b.Navigation("ImageFolders");
-                });
-
-            modelBuilder.Entity("TABv3.Entities.MainFolder", b =>
-                {
-                    b.Navigation("Folders");
+                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }
