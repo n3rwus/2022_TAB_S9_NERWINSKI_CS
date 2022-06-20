@@ -23,7 +23,7 @@ namespace TABv3.Helpers
                   .HasMany(x => x.ChildrenFolders)
                   .WithOne(x => x.ParentFolder)
                   .HasForeignKey(x => x.ParentFolderId)
-                  .OnDelete(DeleteBehavior.SetNull);
+                  .OnDelete(DeleteBehavior.NoAction);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
