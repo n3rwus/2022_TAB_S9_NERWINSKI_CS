@@ -3,7 +3,7 @@ export class AuthenticationDataProvider {
 
 	public static signUp(email: string, password: string, firstName: string) {
 		let data = 0;
-		return axios.post(`http://localhost:3189/api/User/register`, {
+		return axios.post(`http://localhost:4000/api/User/register`, {
 			email: email,
 			password: password,
 			//firstName: firstName,
@@ -20,7 +20,7 @@ export class AuthenticationDataProvider {
 
 	public static signIn(email: string, password: string) {
 		let data = '';
-		return axios.post(`http://localhost:3189/api/User/login`, {
+		return axios.post(`http://localhost:4000/api/User/login`, {
 				email: email,
 				password: password
 			}, {
