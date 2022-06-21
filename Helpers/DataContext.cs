@@ -24,6 +24,10 @@ namespace TABv3.Helpers
                   .WithOne(x => x.ParentFolder)
                   .HasForeignKey(x => x.ParentFolderId)
                   .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Folder>()
+                .HasMany(x => x.Images)
+                .WithOne(x => x.Folder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)

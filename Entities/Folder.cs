@@ -1,13 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TABv3.Entities
 {
     public class Folder
     {
-        public Folder()
-        {
-            ChildrenFolders = new HashSet<Folder>();
-        }
 
         [Key]
         public int Id { get; set; }
@@ -16,12 +13,18 @@ namespace TABv3.Entities
 
         //relacje
 
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
-        public ICollection<Image> Images { get; set; }
+        public virtual int AccountId { get; set; }
+        public virtual Account Account { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
 
-        public int? ParentFolderId { get; set; }
-        public virtual Folder ParentFolder { get; set; }
-        public virtual ICollection<Folder> ChildrenFolders { get; set; }
+        [InverseProperty("IdNext")]
+        public virtual Folder Next { get; set; }
+        [InverseProperty("IdPrev")]
+        public virtual Folder Prev { get; set; }
+
+        [ForeignKey("Id")]
+        public virtual int IdNext { get; set; }
+        [ForeignKey("Id")]
+        public virtual int IdPrev { get; set; }
     }
 }
