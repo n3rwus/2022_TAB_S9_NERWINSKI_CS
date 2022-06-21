@@ -6,7 +6,7 @@ export class AuthenticationDataProvider {
 		return axios.post(`http://localhost:3189/api/User/register`, {
 			email: email,
 			password: password,
-			firstName: firstName,
+			//firstName: firstName,
 		}).then(res => {
 			console.log(res);
 			console.log(res.data);
