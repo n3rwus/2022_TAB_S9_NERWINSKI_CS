@@ -9,6 +9,9 @@ import Profile from './pages/profile/Profile';
 import Tags from './pages/profile/Tags';
 import Privacy from './pages/profile/Privacy';
 import Gallery from './pages/galery/Gallery';
+import Folder from './pages/galery/Folder';
+import Photo from './pages/galery/Photo';
+import EditPhoto from './pages/galery/EditPhoto';
 
 function App() {
   return (
@@ -45,10 +48,27 @@ function App() {
 				<Route exact path={'/profile/privacy/:token'} render={(props) => (
 					<Privacy token={props.match.params.token}/>)}
 				/>
+				<Route exact path={'/gallery/folder/:id/:token'} render={(props) => (
+					<Folder
+						token={props.match.params.token}
+						parentId={props.match.params.id}
+					/>)}
+				/>
+				<Route exact path={'/gallery/folder/:folderId/image/:id'} render={(props) => (
+					<Photo
+						id={props.match.params.id}
+						folderId={props.match.params.folderId}
+					/>)}
+				/>
+				<Route exact path={'/gallery/folder/:folderId/image/:id/edit'} render={(props) => (
+					<EditPhoto
+						id={props.match.params.id}
+						folderId={props.match.params.folderId}
+					/>)}
+				/>
 			</Switch>
 		</Router>
 	</React.Fragment>
 	);
 }
-
 export default App;
