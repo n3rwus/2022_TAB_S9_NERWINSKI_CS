@@ -12,8 +12,8 @@ using TABv3.Helpers;
 namespace TABv3.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220620214208_init")]
-    partial class init
+    [Migration("20220621143112_init2")]
+    partial class init2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,7 +156,7 @@ namespace TABv3.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FolderId")
+                    b.Property<int?>("FolderId")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("ImageData")
@@ -280,7 +280,7 @@ namespace TABv3.Migrations
                         .IsRequired();
 
                     b.HasOne("TABv3.Entities.Folder", "ParentFolder")
-                        .WithMany("ChildrenFolders")
+                        .WithMany("ChildFolders")
                         .HasForeignKey("ParentFolderId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -300,9 +300,7 @@ namespace TABv3.Migrations
 
                     b.HasOne("TABv3.Entities.Folder", "Folder")
                         .WithMany("Images")
-                        .HasForeignKey("FolderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FolderId");
 
                     b.Navigation("Account");
 
@@ -320,7 +318,7 @@ namespace TABv3.Migrations
 
             modelBuilder.Entity("TABv3.Entities.Folder", b =>
                 {
-                    b.Navigation("ChildrenFolders");
+                    b.Navigation("ChildFolders");
 
                     b.Navigation("Images");
                 });

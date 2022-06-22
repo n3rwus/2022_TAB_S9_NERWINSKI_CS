@@ -2,6 +2,11 @@
 {
     public class Category
     {
+        public Category()
+        {
+            this.Images = new HashSet<Image>();
+        }
+
         public int Id { get; set; }
         public string CategoryName { get; set; }
         public int AccountId { get; set; }

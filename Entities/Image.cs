@@ -2,6 +2,11 @@
 {
     public class Image
     {
+        public Image()
+        {
+            this.Categories = new HashSet<Category>();
+        }
+
         public int Id { get; set; }
         public string ImageTitle { get; set; }
         public byte[] ImageData { get; set; }
@@ -14,7 +19,7 @@
 
         public int AccountId { get; set; }
         public Account Account { get; set; }
-        public int FolderId { get; set; }
+        public int? FolderId { get; set; }
         public Folder Folder { get; set; }
         public ICollection<Category> Categories { get; set; }
     }

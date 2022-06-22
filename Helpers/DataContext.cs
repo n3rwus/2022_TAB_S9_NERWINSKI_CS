@@ -20,14 +20,18 @@ namespace TABv3.Helpers
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Folder>()
-                  .HasMany(x => x.ChildrenFolders)
-                  .WithOne(x => x.ParentFolder)
-                  .HasForeignKey(x => x.ParentFolderId)
-                  .OnDelete(DeleteBehavior.NoAction);
+                .HasOne(x => x.ParentFolder)
+                .WithMany(x => x.ChildFolders)
+                .HasForeignKey(x => x.ParentFolderId)
+                .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Folder>()
-                .HasMany(x => x.Images)
-                .WithOne(x => x.Folder);
+            modelBuilder.Entity<Image>()
+                .HasMany<Category>(x => x.Categories)
+                .WithMany(x => x.Images)
+                .Map();
+                
+                
+                
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)

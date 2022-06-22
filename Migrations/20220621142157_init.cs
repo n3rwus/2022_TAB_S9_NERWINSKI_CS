@@ -61,8 +61,8 @@ namespace TABv3.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FolderName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FolderDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AccountId = table.Column<int>(type: "int", nullable: false),
-                    ParentFolderId = table.Column<int>(type: "int", nullable: false)
+                    ParentFolderId = table.Column<int>(type: "int", nullable: false),
+                    AccountId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,13 +71,37 @@ namespace TABv3.Migrations
                         name: "FK_Folders_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Folders_Folders_ParentFolderId",
                         column: x => x.ParentFolderId,
                         principalTable: "Folders",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageData = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    ImageDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageSize = table.Column<int>(type: "int", nullable: true),
+                    ImageFormat = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageDateOfCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AccountId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Images_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,38 +127,6 @@ namespace TABv3.Migrations
                         name: "FK_RefreshToken_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Images",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ImageTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageData = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    ImageDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageSize = table.Column<int>(type: "int", nullable: true),
-                    ImageFormat = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageDateOfCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AccountId = table.Column<int>(type: "int", nullable: false),
-                    FolderId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Images", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Images_Accounts_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Images_Folders_FolderId",
-                        column: x => x.FolderId,
-                        principalTable: "Folders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -189,11 +181,6 @@ namespace TABv3.Migrations
                 column: "AccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Images_FolderId",
-                table: "Images",
-                column: "FolderId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RefreshToken_AccountId",
                 table: "RefreshToken",
                 column: "AccountId");
@@ -205,6 +192,9 @@ namespace TABv3.Migrations
                 name: "CategoryImage");
 
             migrationBuilder.DropTable(
+                name: "Folders");
+
+            migrationBuilder.DropTable(
                 name: "RefreshToken");
 
             migrationBuilder.DropTable(
@@ -212,9 +202,6 @@ namespace TABv3.Migrations
 
             migrationBuilder.DropTable(
                 name: "Images");
-
-            migrationBuilder.DropTable(
-                name: "Folders");
 
             migrationBuilder.DropTable(
                 name: "Accounts");
