@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using TABv3.Entities;
+﻿using WebAlbum.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace TABv3.Models.Account
+namespace WebAlbum.Models.Accounts
 {
     public class CreateRequest
     {

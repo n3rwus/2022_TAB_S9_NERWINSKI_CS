@@ -1,12 +1,13 @@
+using WebAlbum.Authorization;
+using WebAlbum.Helpers;
+using WebAlbum.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
-using TABv3.Authorization;
-using TABv3.Helpers;
-using TABv3.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// add services to DI container
+// Add services to the container.
+
 {
     var services = builder.Services;
     var env = builder.Environment;
@@ -18,7 +19,6 @@ var builder = WebApplication.CreateBuilder(args);
         // serialize enums as strings in api responses (e.g. Role)
         x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
-
     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     services.AddSwaggerGen();
 
@@ -40,9 +40,8 @@ using (var scope = app.Services.CreateScope())
     dataContext.Database.Migrate();
 }
 
-// configure HTTP request pipeline
+// Configure the HTTP request pipeline.
 {
-    // generated swagger json and swagger ui middleware
     app.UseSwagger();
     app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", ".NET Sign-up and Verification API"));
 

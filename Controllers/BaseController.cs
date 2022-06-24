@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TABv3.Entities;
+using WebAlbum.Entities;
 
-namespace TABv3.Controllers
+namespace WebAlbum.Controllers
 {
     [Controller]
     public abstract class BaseController : ControllerBase

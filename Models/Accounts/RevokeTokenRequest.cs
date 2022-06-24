@@ -1,7 +1,8 @@
-﻿namespace TABv3.Models.Account
+﻿namespace WebAlbum.Models.Accounts
 {
     public class RevokeTokenRequest
     {
         public string Token { get; set; }
+
     }
 }

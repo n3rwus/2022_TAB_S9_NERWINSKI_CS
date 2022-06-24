@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TABv3.Models.Account
+namespace WebAlbum.Models.Accounts
 {
     public class RegisterRequest
     {
-
         [Required]
         public string FirstName { get; set; }
-
 
         [Required]
         [EmailAddress]

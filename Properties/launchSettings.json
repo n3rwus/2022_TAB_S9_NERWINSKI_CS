@@ -4,19 +4,19 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:31232",
-      "sslPort": 44346
+      "applicationUrl": "http://localhost:60070",
+      "sslPort": 44390
     }
   },
   "profiles": {
-    "TABv3": {
+    "WebAlbum": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:7140;http://localhost:5140",
+      "applicationUrl": "https://localhost:7274;http://localhost:5274",
       "dotnetRunMessages": true
     },
     "IIS Express": {

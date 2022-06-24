@@ -1,25 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TABv3.Entities
+namespace WebAlbum.Entities
 {
-    public class Folder
+    public partial class Folder
     {
+        public Folder()
+        {
+            Images = new HashSet<Image>();
+            InverseParentFolder = new HashSet<Folder>();
+        }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string FolderName { get; set; }
+        public string FolderName { get; set; } = null!;
         public string? FolderDescription { get; set; }
-
-        //relacje
-
-        public virtual int AccountId { get; set; }
-        public virtual Account Account { get; set; }
-        public virtual ICollection<Image> Images { get; set; }
-
-        //self-reference
         public int? ParentFolderId { get; set; }
-        public Folder ParentFolder { get; set; }
-        public ICollection<Folder> ChildFolders { get; set; }
+        public int? AccountId { get; set; }
 
-        
+        public virtual Account? Account { get; set; }
+        public virtual Folder? ParentFolder { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
+        public virtual ICollection<Folder> InverseParentFolder { get; set; }
     }
 }

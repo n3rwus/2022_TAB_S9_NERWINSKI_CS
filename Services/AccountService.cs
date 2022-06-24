@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
+using BCrypt.Net;
+using WebAlbum.Authorization;
+using WebAlbum.Entities;
+using WebAlbum.Helpers;
+using WebAlbum.Models.Accounts;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using TABv3.Authorization;
-using TABv3.Entities;
-using TABv3.Helpers;
-using TABv3.Models.Account;
 
-namespace TABv3.Services
+namespace WebAlbum.Services
 {
     public interface IAccountService
     {
@@ -52,7 +53,7 @@ namespace TABv3.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
         {
-            var account = _context.Accounts.SingleOrDefault(x => x.Email == model.Email);
+            var account = _context.Accounts.SingleOrDefault(x => Convert.ToString(x.Email) == model.Email);
 
             // validate
             if (account == null || !account.IsVerified || !BCrypt.Net.BCrypt.Verify(model.Password, account.PasswordHash))
@@ -129,8 +130,7 @@ namespace TABv3.Services
 
         public void Register(RegisterRequest model, string origin)
         {
-            // validate
-            if (_context.Accounts.Any(x => x.Email == model.Email))
+            if (_context.Accounts.Any(x => Convert.ToString(x.Email) == model.Email))
             {
                 // send already registered error in email to prevent account enumeration
                 sendAlreadyRegisteredEmail(model.Email, origin);
@@ -149,7 +149,6 @@ namespace TABv3.Services
             // hash password
             account.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
 
-
             // save account
             _context.Accounts.Add(account);
             _context.SaveChanges();
@@ -160,7 +159,7 @@ namespace TABv3.Services
 
         public void VerifyEmail(string token)
         {
-            var account = _context.Accounts.SingleOrDefault(x => x.VerificationToken == token);
+            var account = _context.Accounts.SingleOrDefault(x => Convert.ToString(x.VerificationToken) == token);
 
             if (account == null)
                 throw new AppException("Verification failed");
@@ -327,7 +326,7 @@ namespace TABv3.Services
             var token = Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
 
             // ensure token is unique by checking against db
-            var tokenIsUnique = !_context.Accounts.Any(x => x.VerificationToken == token);
+            var tokenIsUnique = !_context.Accounts.Any(x => Convert.ToString(x.VerificationToken) == token);
             if (!tokenIsUnique)
                 return generateVerificationToken();
 
@@ -390,7 +389,7 @@ namespace TABv3.Services
 
             _emailService.Send(
                 to: account.Email,
-                subject: "Sign-up Verification API - Verify Email",
+                subject: "Sign-up Photo Album - Verify Email",
                 html: $@"<h4>Verify Email</h4>
                         <p>Thanks for registering!</p>
                         {message}"

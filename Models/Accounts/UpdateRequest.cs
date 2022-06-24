@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using TABv3.Entities;
+﻿using WebAlbum.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace TABv3.Models.Account
+namespace WebAlbum.Models.Accounts
 {
     public class UpdateRequest
     {
@@ -10,7 +10,9 @@ namespace TABv3.Models.Account
         private string _role;
         private string _email;
 
+        public string Title { get; set; }
         public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         [EnumDataType(typeof(Role))]
         public string Role

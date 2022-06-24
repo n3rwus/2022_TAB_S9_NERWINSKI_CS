@@ -1,4 +1,4 @@
-﻿namespace TABv3.Entities
+﻿namespace WebAlbum.Entities
 {
     public enum Role
     {

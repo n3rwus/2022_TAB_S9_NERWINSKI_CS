@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TABv3.Models.Account
+namespace WebAlbum.Models.Accounts
 {
     public class ResetPasswordRequest
     {

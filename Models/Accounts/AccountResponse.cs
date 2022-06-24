@@ -1,9 +1,6 @@
-﻿using System.Text.Json.Serialization;
-
-
-namespace TABv3.Models.Account
+﻿namespace WebAlbum.Models.Accounts
 {
-    public class AuthenticateResponse
+    public class AccountResponse
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -12,9 +9,5 @@ namespace TABv3.Models.Account
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
         public bool IsVerified { get; set; }
-        public string JwtToken { get; set; }
-
-        [JsonIgnore] // refresh token is returned in http only cookie
-        public string RefreshToken { get; set; }
     }
 }

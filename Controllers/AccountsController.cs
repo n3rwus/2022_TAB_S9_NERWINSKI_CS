@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TABv3.Authorization;
-using TABv3.Entities;
-using TABv3.Models.Account;
-using TABv3.Services;
+using WebAlbum.Authorization;
+using WebAlbum.Entities;
+using WebAlbum.Models.Accounts;
+using WebAlbum.Services;
 
-namespace TABv3.Controllers
+namespace WebAlbum.Controllers
 {
     [Authorize]
     [ApiController]
