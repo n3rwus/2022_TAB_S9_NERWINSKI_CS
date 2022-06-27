@@ -1,6 +1,6 @@
 ﻿namespace WebAlbum.Models.Images.Response
 {
-    public class ImagesResponse
+    public class ImageResponse
     {
         public int Id { get; set; }
         public byte[] Image { get; set; }

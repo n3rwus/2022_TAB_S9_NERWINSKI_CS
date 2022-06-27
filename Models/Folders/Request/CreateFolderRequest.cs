@@ -2,7 +2,7 @@
 
 namespace WebAlbum.Models.Folders.Request
 {
-    public class AddFolderRequest
+    public class CreateFolderRequest
     {
         [Required]
         public string FolderName { get; set; }

@@ -2,6 +2,12 @@
 using WebAlbum.Entities;
 using WebAlbum.Models.Accounts.Request;
 using WebAlbum.Models.Accounts.Response;
+using WebAlbum.Models.Categores.Request;
+using WebAlbum.Models.Categores.Response;
+using WebAlbum.Models.Folders.Request;
+using WebAlbum.Models.Folders.Respons;
+using WebAlbum.Models.Images.Request;
+using WebAlbum.Models.Images.Response;
 
 namespace WebAlbum.Helpers
 {
@@ -10,14 +16,11 @@ namespace WebAlbum.Helpers
         // mappings between model and entity objects
         public AutoMapperProfile()
         {
+            //account
             CreateMap<Account, AccountResponse>();
-
             CreateMap<Account, AuthenticateResponse>();
-
             CreateMap<RegisterRequest, Account>();
-
             CreateMap<CreateRequest, Account>();
-
             CreateMap<UpdateRequest, Account>()
                 .ForAllMembers(x => x.Condition(
                     (src, dest, prop) =>
@@ -32,6 +35,19 @@ namespace WebAlbum.Helpers
                         return true;
                     }
                 ));
+            //images
+            CreateMap<CreateImageRequest, Image>();
+            CreateMap<UpdateImageRequest, Image>();
+            CreateMap<Image, ImageResponse>();
+            //folders
+            CreateMap<CreateFolderRequest, Folder>();
+            CreateMap<UpdateFolderRequest, Folder>();
+            CreateMap<Folder, FolderResponse>();
+            //category
+            CreateMap<UpdateCategoryRequest, Category>();
+            CreateMap<Category, CategoryResponse>();
+
+
         }
     }
 }
