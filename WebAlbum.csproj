@@ -25,6 +25,8 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Models\Folders\" />
+    <Folder Include="Models\Categores\" />
   </ItemGroup>
 
 </Project>
