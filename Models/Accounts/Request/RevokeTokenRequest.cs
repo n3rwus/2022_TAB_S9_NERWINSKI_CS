@@ -1,4 +1,4 @@
-﻿namespace WebAlbum.Models.Accounts
+﻿namespace WebAlbum.Models.Accounts.Request
 {
     public class RevokeTokenRequest
     {

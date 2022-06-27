@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WebAlbum.Entities;
-using WebAlbum.Models.Accounts;
+using WebAlbum.Models.Accounts.Request;
+using WebAlbum.Models.Accounts.Response;
 
 namespace WebAlbum.Helpers
 {

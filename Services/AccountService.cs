@@ -3,13 +3,14 @@ using BCrypt.Net;
 using WebAlbum.Authorization;
 using WebAlbum.Entities;
 using WebAlbum.Helpers;
-using WebAlbum.Models.Accounts;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using WebAlbum.Models.Accounts.Response;
+using WebAlbum.Models.Accounts.Request;
 
 namespace WebAlbum.Services
 {

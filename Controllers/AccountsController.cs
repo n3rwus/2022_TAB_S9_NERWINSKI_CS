@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebAlbum.Authorization;
 using WebAlbum.Entities;
-using WebAlbum.Models.Accounts;
+using WebAlbum.Models.Accounts.Request;
+using WebAlbum.Models.Accounts.Response;
 using WebAlbum.Services;
 
 namespace WebAlbum.Controllers

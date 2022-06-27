@@ -1,4 +1,6 @@
-﻿namespace WebAlbum.Models.Images
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebAlbum.Models.Images
 {
 /*    DeleteImage
 -----------------
@@ -12,5 +14,9 @@ Response:
 Status*/
     public class DeleteImagesRequest
     {
+        [Required]
+        public string Token { get; set; }
+        [Required]
+        public int ImageId { get; set; }
     }
 }
