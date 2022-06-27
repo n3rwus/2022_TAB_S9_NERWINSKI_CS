@@ -3,13 +3,14 @@ using BCrypt.Net;
 using WebAlbum.Authorization;
 using WebAlbum.Entities;
 using WebAlbum.Helpers;
-using WebAlbum.Models.Accounts;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using WebAlbum.Models.Accounts.Response;
+using WebAlbum.Models.Accounts.Request;
 
 namespace WebAlbum.Services
 {
@@ -80,7 +81,7 @@ namespace WebAlbum.Services
         public AuthenticateResponse RefreshToken(string token, string ipAddress)
         {
             var account = getAccountByRefreshToken(token);
-            var refreshToken = account.RefreshTokens.Single(x => x.Token == token);
+            var refreshToken = account.RefreshTokens.Single(x => Convert.ToString(x.Token) == token);
 
             if (refreshToken.IsRevoked)
             {
@@ -117,7 +118,7 @@ namespace WebAlbum.Services
         public void RevokeToken(string token, string ipAddress)
         {
             var account = getAccountByRefreshToken(token);
-            var refreshToken = account.RefreshTokens.Single(x => x.Token == token);
+            var refreshToken = account.RefreshTokens.Single(x => Convert.ToString(x.Token) == token);
 
             if (!refreshToken.IsActive)
                 throw new AppException("Invalid token");
@@ -173,7 +174,7 @@ namespace WebAlbum.Services
 
         public void ForgotPassword(ForgotPasswordRequest model, string origin)
         {
-            var account = _context.Accounts.SingleOrDefault(x => x.Email == model.Email);
+            var account = _context.Accounts.SingleOrDefault(x => Convert.ToString(x.Email) == model.Email);
 
             // always return ok response to prevent email enumeration
             if (account == null) return;
@@ -223,7 +224,7 @@ namespace WebAlbum.Services
         public AccountResponse Create(CreateRequest model)
         {
             // validate
-            if (_context.Accounts.Any(x => x.Email == model.Email))
+            if (_context.Accounts.Any(x => Convert.ToString(x.Email) == model.Email))
                 throw new AppException($"Email '{model.Email}' is already registered");
 
             // map model to new account object
@@ -280,7 +281,7 @@ namespace WebAlbum.Services
 
         private Account getAccountByRefreshToken(string token)
         {
-            var account = _context.Accounts.SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
+            var account = _context.Accounts.SingleOrDefault(u => u.RefreshTokens.Any(t => Convert.ToString(t.Token) == token));
             if (account == null) throw new AppException("Invalid token");
             return account;
         }
@@ -288,7 +289,7 @@ namespace WebAlbum.Services
         private Account getAccountByResetToken(string token)
         {
             var account = _context.Accounts.SingleOrDefault(x =>
-                x.ResetToken == token && x.ResetTokenExpires > DateTime.UtcNow);
+                Convert.ToString(x.ResetToken) == token && x.ResetTokenExpires > DateTime.UtcNow);
             if (account == null) throw new AppException("Invalid token");
             return account;
         }

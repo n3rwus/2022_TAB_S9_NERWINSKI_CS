@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using WebAlbum.Authorization;
 using WebAlbum.Entities;
 using WebAlbum.Helpers;
