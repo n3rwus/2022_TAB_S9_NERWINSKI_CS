@@ -15,7 +15,8 @@ namespace WebAlbum.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string? CategoryName { get; set; }
+        [Required]
+        public string CategoryName { get; set; }
         public int? AccountId { get; set; }
         public int? ImageId { get; set; }
 
