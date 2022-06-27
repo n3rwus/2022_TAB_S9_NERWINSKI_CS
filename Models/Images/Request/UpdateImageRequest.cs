@@ -2,16 +2,17 @@
 
 namespace WebAlbum.Models.Images.Request
 {
-    public class AddImagesRequest
+    public class UpdateImageRequest
     {
         [Required]
         public string Token { get; set; }
-        public int? FolderId { get; set; }
-        public DateTime? Date { get; set; }
-        public string? Description { get; set; }
-        public List<string>? Categores { get; set; }
         [Required]
-        public List<byte[]> Images { get; set; }
+        public int Id { get; set; }
+        public int? FolderId { get; set; }
+        public string? ImageTitle { get; set; }
+        public string? ImageDescription { get; set; }
+        public List<string>? Categores { get; set; }
+        public DateTime? ImageDateOfCreate { get; set; }
 
     }
 }
