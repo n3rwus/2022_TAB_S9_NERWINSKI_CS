@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using WebAlbum.Entities;
 using WebAlbum.Models.Accounts;
+using WebAlbum.Models.Categories;
+using WebAlbum.Models.Folders;
 
 namespace WebAlbum.Helpers
 {
@@ -31,6 +33,13 @@ namespace WebAlbum.Helpers
                         return true;
                     }
                 ));
+
+            CreateMap<AddTagRequest, Category>();
+
+            CreateMap<AddFolderRequest, Folder>();
+
+            CreateMap<Folder, GetFolderResponse>();
+
         }
     }
 }
