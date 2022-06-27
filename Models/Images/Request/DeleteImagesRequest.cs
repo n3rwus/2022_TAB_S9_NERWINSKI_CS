@@ -1,17 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebAlbum.Models.Images
+namespace WebAlbum.Models.Images.Request
 {
-/*    DeleteImage
------------------
-Request:
+    /*    DeleteImage
+    -----------------
+    Request:
 
-UserToken: string
-idZdjęcia: int/string
+    UserToken: string
+    idZdjęcia: int/string
 
-Response:
+    Response:
 
-Status*/
+    Status*/
     public class DeleteImagesRequest
     {
         [Required]

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebAlbum.Models.Images
+namespace WebAlbum.Models.Images.Request
 {
     /*    AddImages
     --------------------
@@ -26,7 +26,7 @@ namespace WebAlbum.Models.Images
         public string? Description { get; set; }
         public List<string>? Categores { get; set; }
         [Required]
-        public List<byte[]> Images { get; set;}
+        public List<byte[]> Images { get; set; }
 
     }
 }

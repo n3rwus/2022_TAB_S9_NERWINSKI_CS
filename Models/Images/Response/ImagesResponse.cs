@@ -1,4 +1,4 @@
-﻿namespace WebAlbum.Models.Images
+﻿namespace WebAlbum.Models.Images.Response
 {
     public class ImagesResponse
     {
