@@ -5,8 +5,6 @@ namespace WebAlbum.Models.Images.Request
     public class UpdateImageRequest
     {
         [Required]
-        public string Token { get; set; }
-        [Required]
         public int Id { get; set; }
         public int? FolderId { get; set; }
         public string? ImageTitle { get; set; }

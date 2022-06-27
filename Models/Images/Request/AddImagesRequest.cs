@@ -4,8 +4,6 @@ namespace WebAlbum.Models.Images.Request
 {
     public class AddImagesRequest
     {
-        [Required]
-        public string Token { get; set; }
         public int? FolderId { get; set; }
         public DateTime? Date { get; set; }
         public string? Description { get; set; }
