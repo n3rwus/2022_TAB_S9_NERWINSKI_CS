@@ -2,9 +2,9 @@
 
 namespace WebAlbum.Models.Categores.Request
 {
-    public class DeleteCategoryRequest
+    public class UpdateCategoryRequest
     {
         [Required]
-        public int Id { get; set; }
+        public string CategoryName { get; set; }
     }
 }

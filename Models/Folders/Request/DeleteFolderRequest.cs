@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebAlbum.Models.Categores.Request
+namespace WebAlbum.Models.Folders.Request
 {
-    public class DeleteCategoryRequest
+    public class DeleteFolderRequest
     {
         [Required]
         public int Id { get; set; }
