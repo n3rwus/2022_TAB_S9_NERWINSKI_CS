@@ -1,4 +1,6 @@
-﻿namespace WebAlbum.Models.Folders.Request
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebAlbum.Models.Folders.Request
 {
     public class DeleteFolderRequest
     {
