@@ -1,14 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebAlbum.Models.Accounts
+namespace WebAlbum.Models.Accounts.Request
 {
-    public class AuthenticateRequest
+    public class ForgotPasswordRequest
     {
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-
-        [Required]
-        public string Password { get; set; }
     }
 }

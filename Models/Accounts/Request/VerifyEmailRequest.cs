@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebAlbum.Models.Accounts
+namespace WebAlbum.Models.Accounts.Request
 {
-    public class ValidateResetTokenRequest
+    public class VerifyEmailRequest
     {
         [Required]
         public string Token { get; set; }

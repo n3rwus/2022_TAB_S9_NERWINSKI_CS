@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace WebAlbum.Models.Accounts
+namespace WebAlbum.Models.Accounts.Response
 {
     public class AuthenticateResponse
     {

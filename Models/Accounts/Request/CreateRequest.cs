@@ -1,11 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using WebAlbum.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace WebAlbum.Models.Accounts
+namespace WebAlbum.Models.Accounts.Request
 {
-    public class RegisterRequest
+    public class CreateRequest
     {
+
         [Required]
         public string FirstName { get; set; }
+
+        [Required]
+        [EnumDataType(typeof(Role))]
+        public string Role { get; set; }
 
         [Required]
         [EmailAddress]
@@ -18,8 +24,5 @@ namespace WebAlbum.Models.Accounts
         [Required]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
-
-        [Range(typeof(bool), "true", "true")]
-        public bool AcceptTerms { get; set; }
     }
 }
