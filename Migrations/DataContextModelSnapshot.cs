@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TABv3.Helpers;
+using WebAlbum.Helpers;
 
 #nullable disable
 
-namespace TABv3.Migrations
+namespace WebAlbum.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
@@ -17,12 +17,12 @@ namespace TABv3.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("TABv3.Entities.Account", b =>
+            modelBuilder.Entity("WebAlbum.Entities.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,49 +33,46 @@ namespace TABv3.Migrations
                     b.Property<bool>("AcceptTerms")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Created")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
-                    b.Property<DateTime?>("PasswordReset")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("PasswordReset")
+                        .HasColumnType("text");
 
                     b.Property<string>("ResetToken")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
-                    b.Property<DateTime?>("ResetTokenExpires")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("ResetTokenExpires")
+                        .HasColumnType("text");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Updated")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Updated")
+                        .HasColumnType("text");
 
                     b.Property<string>("VerificationToken")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
-                    b.Property<DateTime?>("Verified")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Verified")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Account", (string)null);
                 });
 
-            modelBuilder.Entity("TABv3.Entities.Category", b =>
+            modelBuilder.Entity("WebAlbum.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -83,21 +80,24 @@ namespace TABv3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AccountId")
+                    b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
                     b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category", (string)null);
                 });
 
-            modelBuilder.Entity("TABv3.Entities.Folder", b =>
+            modelBuilder.Entity("WebAlbum.Entities.Folder", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,29 +105,29 @@ namespace TABv3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("AccountId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FolderDescription")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("FolderName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
-                    b.Property<int>("MainFolderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ParentFolderId")
+                    b.Property<int?>("ParentFolderId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MainFolderId");
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("ParentFolderId");
 
-                    b.ToTable("Folders");
+                    b.ToTable("Folder", (string)null);
                 });
 
-            modelBuilder.Entity("TABv3.Entities.Image", b =>
+            modelBuilder.Entity("WebAlbum.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,67 +135,70 @@ namespace TABv3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AccountId")
+                    b.Property<int?>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FolderId")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("ImageData")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<DateTime>("ImageDateOfCreate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("ImageDateOfCreate")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("ImageDescription")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ImageFormat")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int?>("ImageSize")
                         .HasColumnType("int");
 
                     b.Property<string>("ImageTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Images");
+                    b.HasIndex("FolderId");
+
+                    b.ToTable("Image", (string)null);
                 });
 
-            modelBuilder.Entity("TABv3.Entities.ImageCategory", b =>
+            modelBuilder.Entity("WebAlbum.Entities.ImageCategory", b =>
                 {
-                    b.Property<int>("ImageId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
-                    b.HasKey("ImageId", "CategoryId");
+                    b.Property<int?>("ImageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("ImageCategories");
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("ImageCategory", (string)null);
                 });
 
-            modelBuilder.Entity("TABv3.Entities.ImageFolder", b =>
-                {
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FolderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ImageId", "FolderId");
-
-                    b.HasIndex("FolderId");
-
-                    b.ToTable("ImageFolder");
-                });
-
-            modelBuilder.Entity("TABv3.Entities.MainFolder", b =>
+            modelBuilder.Entity("WebAlbum.Entities.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -206,193 +209,137 @@ namespace TABv3.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Created")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("CreatedByIp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Expires")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReasonRevoked")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReplacedByToken")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Revoked")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RevokedByIp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId")
-                        .IsUnique();
+                    b.HasIndex("AccountId");
 
-                    b.ToTable("MainFolders");
+                    b.ToTable("RefreshToken", (string)null);
                 });
 
-            modelBuilder.Entity("TABv3.Entities.Account", b =>
+            modelBuilder.Entity("WebAlbum.Entities.Category", b =>
                 {
-                    b.OwnsMany("TABv3.Entities.RefreshToken", "RefreshTokens", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
-
-                            b1.Property<int>("AccountId")
-                                .HasColumnType("int");
-
-                            b1.Property<DateTime>("Created")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("CreatedByIp")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime>("Expires")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("ReasonRevoked")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("ReplacedByToken")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime?>("Revoked")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("RevokedByIp")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Token")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("AccountId");
-
-                            b1.ToTable("RefreshToken");
-
-                            b1.WithOwner("Account")
-                                .HasForeignKey("AccountId");
-
-                            b1.Navigation("Account");
-                        });
-
-                    b.Navigation("RefreshTokens");
-                });
-
-            modelBuilder.Entity("TABv3.Entities.Category", b =>
-                {
-                    b.HasOne("TABv3.Entities.Account", "Account")
+                    b.HasOne("WebAlbum.Entities.Account", "Account")
                         .WithMany("Categories")
                         .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_Category_Account");
 
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("TABv3.Entities.Folder", b =>
+            modelBuilder.Entity("WebAlbum.Entities.Folder", b =>
                 {
-                    b.HasOne("TABv3.Entities.MainFolder", "MainFolder")
+                    b.HasOne("WebAlbum.Entities.Account", "Account")
                         .WithMany("Folders")
-                        .HasForeignKey("MainFolderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AccountId")
+                        .HasConstraintName("FK_Folder_Account");
 
-                    b.HasOne("TABv3.Entities.Folder", "ParentFolder")
-                        .WithMany("Folders")
+                    b.HasOne("WebAlbum.Entities.Folder", "ParentFolder")
+                        .WithMany("InverseParentFolder")
                         .HasForeignKey("ParentFolderId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasConstraintName("FK_Folder_ParentFolder");
 
-                    b.Navigation("MainFolder");
+                    b.Navigation("Account");
 
                     b.Navigation("ParentFolder");
                 });
 
-            modelBuilder.Entity("TABv3.Entities.Image", b =>
+            modelBuilder.Entity("WebAlbum.Entities.Image", b =>
                 {
-                    b.HasOne("TABv3.Entities.Account", "Account")
+                    b.HasOne("WebAlbum.Entities.Account", "Account")
                         .WithMany("Images")
                         .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_Image_Account");
+
+                    b.HasOne("WebAlbum.Entities.Folder", "Folder")
+                        .WithMany("Images")
+                        .HasForeignKey("FolderId")
+                        .HasConstraintName("FK_Image_Folder");
 
                     b.Navigation("Account");
+
+                    b.Navigation("Folder");
                 });
 
-            modelBuilder.Entity("TABv3.Entities.ImageCategory", b =>
+            modelBuilder.Entity("WebAlbum.Entities.ImageCategory", b =>
                 {
-                    b.HasOne("TABv3.Entities.Category", "Category")
+                    b.HasOne("WebAlbum.Entities.Category", "Category")
                         .WithMany("ImageCategories")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasConstraintName("FK_ImageCategory_Category");
 
-                    b.HasOne("TABv3.Entities.Image", "Image")
+                    b.HasOne("WebAlbum.Entities.Image", "Image")
                         .WithMany("ImageCategories")
                         .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_ImageCategory_Image");
 
                     b.Navigation("Category");
 
                     b.Navigation("Image");
                 });
 
-            modelBuilder.Entity("TABv3.Entities.ImageFolder", b =>
+            modelBuilder.Entity("WebAlbum.Entities.RefreshToken", b =>
                 {
-                    b.HasOne("TABv3.Entities.Folder", "Folder")
-                        .WithMany("ImageFolder")
-                        .HasForeignKey("FolderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TABv3.Entities.Image", "Image")
-                        .WithMany("ImageFolders")
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Folder");
-
-                    b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("TABv3.Entities.MainFolder", b =>
-                {
-                    b.HasOne("TABv3.Entities.Account", "Account")
-                        .WithOne("Folder")
-                        .HasForeignKey("TABv3.Entities.MainFolder", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("WebAlbum.Entities.Account", "Account")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("AccountId")
+                        .IsRequired()
+                        .HasConstraintName("FK__RefreshTo__Accou__2645B050");
 
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("TABv3.Entities.Account", b =>
+            modelBuilder.Entity("WebAlbum.Entities.Account", b =>
                 {
                     b.Navigation("Categories");
 
-                    b.Navigation("Folder")
-                        .IsRequired();
+                    b.Navigation("Folders");
 
                     b.Navigation("Images");
+
+                    b.Navigation("RefreshTokens");
                 });
 
-            modelBuilder.Entity("TABv3.Entities.Category", b =>
+            modelBuilder.Entity("WebAlbum.Entities.Category", b =>
                 {
                     b.Navigation("ImageCategories");
                 });
 
-            modelBuilder.Entity("TABv3.Entities.Folder", b =>
+            modelBuilder.Entity("WebAlbum.Entities.Folder", b =>
                 {
-                    b.Navigation("Folders");
+                    b.Navigation("Images");
 
-                    b.Navigation("ImageFolder");
+                    b.Navigation("InverseParentFolder");
                 });
 
-            modelBuilder.Entity("TABv3.Entities.Image", b =>
+            modelBuilder.Entity("WebAlbum.Entities.Image", b =>
                 {
                     b.Navigation("ImageCategories");
-
-                    b.Navigation("ImageFolders");
-                });
-
-            modelBuilder.Entity("TABv3.Entities.MainFolder", b =>
-                {
-                    b.Navigation("Folders");
                 });
 #pragma warning restore 612, 618
         }

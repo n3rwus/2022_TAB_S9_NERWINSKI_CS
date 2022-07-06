@@ -1,17 +1,16 @@
-﻿using MailKit.Net.Smtp;
+﻿using WebAlbum.Helpers;
+using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
-using TABv3.Helpers;
 
-namespace TABv3.Services
+namespace WebAlbum.Services
 {
     public interface IEmailService
     {
         void Send(string to, string subject, string html, string from = null);
     }
-
     public class EmailService : IEmailService
     {
         private readonly AppSettings _appSettings;

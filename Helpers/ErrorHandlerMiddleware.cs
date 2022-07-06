@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 
-namespace TABv3.Helpers
+namespace WebAlbum.Helpers
 {
     public class ErrorHandlerMiddleware
     {

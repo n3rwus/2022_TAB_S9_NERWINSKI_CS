@@ -1,7 +1,7 @@
-﻿namespace TABv3.Helpers
+﻿namespace WebAlbum.Helpers
 {
     public class AppSettings
-    {    
+    {
         public string Secret { get; set; }
 
         // refresh token time to live (in days), inactive tokens are

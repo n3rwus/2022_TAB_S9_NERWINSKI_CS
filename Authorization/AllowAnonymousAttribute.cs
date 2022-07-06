@@ -1,6 +1,7 @@
-﻿namespace TABv3.Authorization
+﻿namespace WebAlbum.Authorization
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class AllowAnonymousAttribute : Attribute
-    { }
+    {
+    }
 }

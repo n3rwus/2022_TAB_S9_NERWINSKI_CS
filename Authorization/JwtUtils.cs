@@ -4,10 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using TABv3.Entities;
-using TABv3.Helpers;
 
-namespace TABv3.Authorization
+using WebAlbum.Entities;
+using WebAlbum.Helpers;
+
+namespace WebAlbum.Authorization
 {
     public interface IJwtUtils
     {
@@ -88,7 +89,7 @@ namespace TABv3.Authorization
             };
 
             // ensure token is unique by checking against db
-            var tokenIsUnique = !_context.Accounts.Any(a => a.RefreshTokens.Any(t => t.Token == refreshToken.Token));
+            var tokenIsUnique = !_context.Accounts.Any(a => a.RefreshTokens.Any(t => Convert.ToString(t.Token) == refreshToken.Token));
 
             if (!tokenIsUnique)
                 return GenerateRefreshToken(ipAddress);

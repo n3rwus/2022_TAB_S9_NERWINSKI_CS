@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
-using TABv3.Entities;
-using TABv3.Models.Account;
+using WebAlbum.Entities;
+using WebAlbum.Models.Accounts;
+using WebAlbum.Models.Accounts.Request;
+using WebAlbum.Models.Accounts.Response;
+using WebAlbum.Models.Categories;
+using WebAlbum.Models.Folders;
 
-namespace TABv3.Helpers
+namespace WebAlbum.Helpers
 {
     public class AutoMapperProfile : Profile
     {
@@ -21,16 +25,23 @@ namespace TABv3.Helpers
                 .ForAllMembers(x => x.Condition(
                     (src, dest, prop) =>
                     {
-                        // ignore null & empty string properties
+                    // ignore null & empty string properties
                         if (prop == null) return false;
                         if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
 
-                        // ignore null role
+                    // ignore null role
                         if (x.DestinationMember.Name == "Role" && src.Role == null) return false;
 
                         return true;
                     }
                 ));
+
+            CreateMap<AddTagRequest, Category>();
+
+            CreateMap<AddFolderRequest, Folder>();
+
+            CreateMap<Folder, GetFolderResponse>();
+
         }
     }
 }

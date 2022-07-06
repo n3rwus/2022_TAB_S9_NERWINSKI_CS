@@ -1,98 +1,167 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TABv3.Entities;
+﻿using System;
+using System.Collections.Generic;
+using WebAlbum.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace TABv3.Helpers
+namespace WebAlbum.Helpers
 {
-    public class DataContext : DbContext
+    public partial class DataContext : DbContext
     {
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<Image> Images { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<ImageCategory> ImageCategories { get; set; }
-        public DbSet<Folder> Folders { get; set; }
-        public DbSet<MainFolder> MainFolders { get; set; }
-
-        private readonly IConfiguration Configuration;
-
-        public DataContext(IConfiguration configuration)
+        public DataContext()
         {
-            Configuration = configuration;
+        }
+
+        public DataContext(DbContextOptions<DataContext> options)
+            : base(options)
+        {
+        }
+
+        public virtual DbSet<Account> Accounts { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
+        public virtual DbSet<Folder> Folders { get; set; } = null!;
+        public virtual DbSet<Image> Images { get; set; } = null!;
+        public virtual DbSet<ImageCategory> ImageCategories { get; set; } = null!;
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=TAB_DB;Trusted_Connection=True;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Image - Folder
-            modelBuilder.Entity<ImageFolder>().HasKey(x => new {x.ImageId, x.FolderId });
+            modelBuilder.Entity<Account>(entity =>
+            {
+                entity.ToTable("Account");
 
-            modelBuilder.Entity<ImageFolder>()
-                .HasOne<Folder>(f => f.Folder)
-                .WithMany(x => x.ImageFolder)
-                .HasForeignKey(e => e.FolderId)
-                .OnDelete(DeleteBehavior.Cascade);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<ImageFolder>()
-               .HasOne<Image>(i => i.Image)
-               .WithMany(x => x.ImageFolders)
-               .HasForeignKey(e => e.ImageId)
-               .OnDelete(DeleteBehavior.NoAction);
+                entity.Property(e => e.Created).HasColumnType("text");
 
-            //Image - Category
-            modelBuilder.Entity<ImageCategory>().HasKey(x => new { x.ImageId, x.CategoryId });
+                entity.Property(e => e.Email).HasColumnType("text");
 
-            modelBuilder.Entity<ImageCategory>()
-                .HasOne<Category>(c => c.Category)
-                .WithMany(x => x.ImageCategories)
-                .HasForeignKey(e => e.CategoryId)
-                .OnDelete(DeleteBehavior.NoAction);
+                entity.Property(e => e.FirstName).HasColumnType("text");
 
-            modelBuilder.Entity<ImageCategory>()
-               .HasOne<Image>(i => i.Image)
-               .WithMany(x => x.ImageCategories)
-               .HasForeignKey(e => e.ImageId)
-               .OnDelete(DeleteBehavior.Cascade);
+                entity.Property(e => e.PasswordHash).HasColumnType("text");
 
-            //MainFolder - Account
-            modelBuilder.Entity<MainFolder>()
-                .HasOne<Account>(u => u.Account)
-                .WithOne(f => f.Folder)
-                .HasForeignKey<MainFolder>(u => u.AccountId)
-                .OnDelete(DeleteBehavior.Cascade);
+                entity.Property(e => e.PasswordReset).HasColumnType("text");
 
-            //MainFolder - Folder
-            modelBuilder.Entity<Folder>()
-                .HasOne<MainFolder>(u => u.MainFolder)
-                .WithMany(i => i.Folders)
-                .HasForeignKey(u => u.MainFolderId)
-                .OnDelete(DeleteBehavior.Cascade);
+                entity.Property(e => e.ResetToken).HasColumnType("text");
 
-            //Folder - Folder
-            modelBuilder.Entity<Folder>()
-                .HasOne<Folder>(f => f.ParentFolder)
-                .WithMany(i => i.Folders)
-                .HasForeignKey(u => u.ParentFolderId)
-                .OnDelete(DeleteBehavior.NoAction);
+                entity.Property(e => e.ResetTokenExpires).HasColumnType("text");
 
-            //Image - Account
-            modelBuilder.Entity<Image>()
-                .HasOne<Account>(u => u.Account)
-                .WithMany(i => i.Images)
-                .HasForeignKey(u => u.AccountId)
-                .OnDelete(DeleteBehavior.Cascade);
+                entity.Property(e => e.Updated).HasColumnType("text");
 
-            //Account - Category
-            modelBuilder.Entity<Category>()
-                .HasOne<Account>(u => u.Account)
-                .WithMany(i => i.Categories)
-                .HasForeignKey(u => u.AccountId)
-                .OnDelete(DeleteBehavior.Cascade);
+                entity.Property(e => e.VerificationToken).HasColumnType("text");
 
-            base.OnModelCreating(modelBuilder);
+                entity.Property(e => e.Verified).HasColumnType("text");
+            });
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.ToTable("Category");
+
+                entity.Property(e => e.CategoryName).HasMaxLength(200);
+
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.Categories)
+                    .HasForeignKey(d => d.AccountId)
+                    .HasConstraintName("FK_Category_Account");
+            });
+
+            modelBuilder.Entity<Folder>(entity =>
+            {
+                entity.ToTable("Folder");
+
+                entity.Property(e => e.FolderDescription).HasColumnType("text");
+
+                entity.Property(e => e.FolderName).HasColumnType("text");
+
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.Folders)
+                    .HasForeignKey(d => d.AccountId)
+                    .HasConstraintName("FK_Folder_Account");
+
+                entity.HasOne(d => d.ParentFolder)
+                    .WithMany(p => p.InverseParentFolder)
+                    .HasForeignKey(d => d.ParentFolderId)
+                    .HasConstraintName("FK_Folder_ParentFolder");
+            });
+
+            modelBuilder.Entity<Image>(entity =>
+            {
+                entity.ToTable("Image");
+
+                entity.Property(e => e.ImageDateOfCreate).HasColumnType("datetime");
+
+                entity.Property(e => e.ImageDescription).HasMaxLength(200);
+
+                entity.Property(e => e.ImageFormat).HasMaxLength(200);
+
+                entity.Property(e => e.ImageTitle).HasMaxLength(200);
+
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.Images)
+                    .HasForeignKey(d => d.AccountId)
+                    .HasConstraintName("FK_Image_Account");
+
+                entity.HasOne(d => d.Folder)
+                    .WithMany(p => p.Images)
+                    .HasForeignKey(d => d.FolderId)
+                    .HasConstraintName("FK_Image_Folder");
+            });
+
+            modelBuilder.Entity<ImageCategory>(entity =>
+            {
+                entity.ToTable("ImageCategory");
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.ImageCategories)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK_ImageCategory_Category");
+
+                entity.HasOne(d => d.Image)
+                    .WithMany(p => p.ImageCategories)
+                    .HasForeignKey(d => d.ImageId)
+                    .HasConstraintName("FK_ImageCategory_Image");
+            });
+
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.ToTable("RefreshToken");
+
+                entity.Property(e => e.Created).HasColumnType("text");
+
+                entity.Property(e => e.CreatedByIp).HasColumnType("text");
+
+                entity.Property(e => e.Expires).HasColumnType("text");
+
+                entity.Property(e => e.ReasonRevoked).HasColumnType("text");
+
+                entity.Property(e => e.ReplacedByToken).HasColumnType("text");
+
+                entity.Property(e => e.Revoked).HasColumnType("text");
+
+                entity.Property(e => e.RevokedByIp).HasColumnType("text");
+
+                entity.Property(e => e.Token).HasColumnType("text");
+
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.RefreshTokens)
+                    .HasForeignKey(d => d.AccountId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__RefreshTo__Accou__2645B050");
+            });
+
+            OnModelCreatingPartial(modelBuilder);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            // connect to sqlite database
-            options.UseSqlServer(Configuration.GetConnectionString("WebApiDatabase"));
-        }
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

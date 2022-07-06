@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Options;
-using TABv3.Helpers;
+﻿using WebAlbum.Helpers;
+using Microsoft.Extensions.Options;
 
-namespace TABv3.Authorization
+namespace WebAlbum.Authorization
 {
     public class JwtMiddleware
     {
