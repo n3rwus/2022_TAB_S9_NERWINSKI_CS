@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using WebAlbum.Entities;
 using WebAlbum.Models.Accounts;
+using WebAlbum.Models.Accounts.Request;
+using WebAlbum.Models.Accounts.Response;
 using WebAlbum.Models.Categories;
 using WebAlbum.Models.Folders;
 
@@ -14,7 +16,7 @@ namespace WebAlbum.Helpers
             CreateMap<Account, AccountResponse>();
 
             CreateMap<Account, AuthenticateResponse>();
-
+            
             CreateMap<RegisterRequest, Account>();
 
             CreateMap<CreateRequest, Account>();
@@ -34,7 +36,7 @@ namespace WebAlbum.Helpers
                     }
                 ));
 
-            CreateMap<AddTagRequest, Category>();
+            CreateMap<AddCategoryRequest, Category>();
 
             CreateMap<AddFolderRequest, Folder>();
 

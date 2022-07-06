@@ -1,8 +1,8 @@
 ﻿namespace WebAlbum.Models.Categories
 {
-    public class TagsResponse
+    public class AddCategoryRequest
     {
-        public int Id { get; set; }
+        public string UserToken { get; set; }
         public string CategoryName { get; set; }
     }
 }
