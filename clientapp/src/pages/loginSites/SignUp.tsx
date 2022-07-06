@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AuthenticationDataProvider } from '../../data/AuthenticationDataProvider';
+import { Checkbox } from '@mui/material';
 
 function Copyright(props: any) {
 return (
@@ -30,11 +31,13 @@ const theme = createTheme();
 const SignUp = () => {
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
+	const [confirmPassword, setConfirmPassword] = React.useState("");
 	const [firstName, setFirstName] = React.useState("");
+	const [terms, setTerms] = React.useState(false);
 
 const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 	event.preventDefault();
-	return AuthenticationDataProvider.signUp(email, password, firstName)
+	return AuthenticationDataProvider.signUp(firstName, email, password , confirmPassword, terms)
 	.then(res => {
 		console.log(res);
 		if (res === 200) {
@@ -42,6 +45,10 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		}
 	});
 };
+
+const onTermsClick = () => {
+	setTerms(!terms);
+}
 
 return (
 	<ThemeProvider theme={theme}>
@@ -97,6 +104,25 @@ return (
 				autoComplete="new-password"
 				onChange={event => setPassword(event.target.value)}
 				/>
+			</Grid>
+			<Grid item xs={12}>
+				<TextField
+				required
+				fullWidth
+				name="confirmPassword"
+				label="confirm Password"
+				type="password"
+				id="confirmPassword"
+				autoComplete="confirm-password"
+				value={confirmPassword}
+				onChange={event => setConfirmPassword(event.target.value)}
+				/>
+			</Grid>
+			<Grid item xs={12}>
+				<Typography textAlign={'center'}>
+					{'Accept terms'}
+					<Checkbox onClick={onTermsClick} />
+				</Typography>
 			</Grid>
 			</Grid>
 			<Button
