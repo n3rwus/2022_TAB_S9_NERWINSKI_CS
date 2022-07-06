@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using WebAlbum.Entities;
 using WebAlbum.Models.Accounts;
+using WebAlbum.Models.Accounts.Request;
+using WebAlbum.Models.Accounts.Response;
 using WebAlbum.Models.Categories;
 using WebAlbum.Models.Folders;
 
