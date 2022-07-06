@@ -1,8 +1,15 @@
-﻿version: "3"
+version: '3.4'
+
 services:
-  mailhog:
-    image: mailhog/mailhog:latest
-    restart: always
+  webalbum:
+    image: ${DOCKER_REGISTRY-}webalbum
+    build:
+      context: .
+      dockerfile: Dockerfile
+  sqldb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+    - SA_PASSWORD=
+    - ACCEPT_EULA=Y
     ports:
-      - 1025:1025
-      - 8025:8025
+    - "1440:1433"
