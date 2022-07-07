@@ -12,6 +12,7 @@ import Gallery from './pages/galery/Gallery';
 import Folder from './pages/galery/Folder';
 import Photo from './pages/galery/Photo';
 import EditPhoto from './pages/galery/EditPhoto';
+import Verify from './pages/loginSites/Verify';
 
 function App() {
   return (
@@ -21,18 +22,18 @@ function App() {
 				<Route exact path={'/'}>
 					<Redirect to="/signIn" />
 				</Route>
-				<Route exact path={'/signIn/:status'} render={(props) => (
-					<SignIn status={props.match.params.status}/>)}
-				/>
 				<Route exact path={'/signIn'}>
 					<SignIn />
 				</Route>
 				<Route exact path={'/signUp'}>
 					<SignUp />
 				</Route>
-				<Route exact path={'/mainPage/:token'} render={(props) => (
-					<MainPage token={props.match.params.token}/>)}
+				<Route exact path={'/verify/:token'} render={(props) => (
+					<Verify token={props.match.params.token}/>)}
 				/>
+				<Route exact path={'/mainPage'} >
+					<MainPage/>
+				</Route>
 				<Route exact path={'/addPicture/:token'} render={(props) => (
 					<AddImage token={props.match.params.token}/>)}
 				/>

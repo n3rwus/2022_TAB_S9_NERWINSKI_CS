@@ -29,18 +29,18 @@ export class AuthenticationDataProvider {
 
 	public static signIn(email: string, password: string) {
 		let data = '';
-		return axios.post(`http://localhost:4000/api/User/login`, {
-				email: email,
-				password: password
-			}, {
-				headers: {
+		return axios.post(`http://localhost:4000/accounts/authenticate`, {
+			Email: email,
+			Password: password
+		}, {
+			headers: {
 				'Accept' : 'application/json',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*',
 			}
 		}).then(res => {
 			console.log(res.data);
-			data = res.data.token;
+			data = res.data.jwtToken;
 			return data;
 		}).catch(er => {
 			console.log(er);
@@ -48,10 +48,16 @@ export class AuthenticationDataProvider {
 		});
 	}
 
-	public static sendConfirmationCode(email: string) {
+	public static verify(token: string) {
 		let data = 0;
-		return axios.post(`http://localhost:5000/authorization/sendConfirmationCode`, {
-			email: email,
+		return axios.post(`http://localhost:4000/accounts/verify-email`, {
+			Token: token,
+		}, {
+			headers: {
+				'Accept' : 'application/json',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+			}
 		}).then(res => {
 			console.log(res);
 			console.log(res.data);
