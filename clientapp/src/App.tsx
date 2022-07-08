@@ -34,21 +34,21 @@ function App() {
 				<Route exact path={'/mainPage'} >
 					<MainPage/>
 				</Route>
-				<Route exact path={'/addPicture/:token'} render={(props) => (
-					<AddImage token={props.match.params.token}/>)}
-				/>
+				<Route exact path={'/addPicture'} >
+					<AddImage />
+				</Route>
 				<Route exact path={'/gallery/:token'} render={(props) => (
 					<Gallery token={props.match.params.token}/>)}
 				/>
-				<Route exact path={'/profile/:token'} render={(props) => (
-					<Profile token={props.match.params.token}/>)}
-				/>
-				<Route exact path={'/profile/tags/:token'} render={(props) => (
-					<Tags token={props.match.params.token}/>)}
-				/>
-				<Route exact path={'/profile/privacy/:token'} render={(props) => (
-					<Privacy token={props.match.params.token}/>)}
-				/>
+				<Route exact path={'/profile'} >
+					<Profile />
+				</Route>
+				<Route exact path={'/profile/tags'} >
+					<Tags />
+				</Route>
+				<Route exact path={'/profile/privacy'}  >
+					<Privacy />
+					</Route>
 				<Route exact path={'/gallery/folder/:id/:token'} render={(props) => (
 					<Folder
 						token={props.match.params.token}

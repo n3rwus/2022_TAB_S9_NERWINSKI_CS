@@ -17,9 +17,7 @@ const Privacy = (props: iPrivacy) => {
 
 	return (
 		<React.Fragment>
-			<Navbar
-				token={token}
-			/>
+			<Navbar  />
 			<Box sx={{ flexGrow: 1, width: '80%', mx: 'auto' }}>
 				<Grid container spacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems='center' textAlign={'center'}>
 					<Grid item xs={12}>

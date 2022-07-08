@@ -1,21 +1,27 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import MyTextField from '../../components/TextField';
 import TagItem from '../../components/TagItem';
+import { ProfileDataProvider } from '../../data/ProfileDataProvider';
 
-interface iTags {
-	token ?: string;
-}
-
-const Tags = (props: iTags) => {
+const Tags = () => {
+	const [jwtToken, setJwtToken] = useState('');
 	const [tags, changeTags] = React.useState<string[]>(['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4']);
 	const [newTag, setNewTag] = React.useState('');
+	
+	
+	useEffect(() => {
+		setJwtToken(localStorage.getItem('jwtToken') ?? '');
+	}, []);
 
-	const {
-		token,
-	} = props;
+	const onAddTagClick = () => {
+		return ProfileDataProvider.addTag(jwtToken, newTag)
+		.then(status => {
+			console.log(status);
+		});
+	}
 
 	const renderTags = tags.map(tag => (
 		<TagItem name={tag}/>
@@ -23,9 +29,7 @@ const Tags = (props: iTags) => {
 
 	return (
 		<React.Fragment>
-			<Navbar
-				token={token}
-			/>
+			<Navbar  />
 			<Box sx={{ flexGrow: 1, width: '80%', mx: 'auto' }}>
 				<Grid container spacing={8} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems='center' textAlign={'center'}>
 					<Grid item xs={12}>
@@ -46,7 +50,7 @@ const Tags = (props: iTags) => {
 						/>
 					</Grid>
 					<Grid item xs={3}>
-						<Button fullWidth variant="contained" sx={{height: '56px'}}>
+						<Button fullWidth onClick={onAddTagClick} variant="contained" sx={{height: '56px'}}>
 							{'Add'}
 						</Button>
 					</Grid>
