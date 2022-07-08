@@ -9,7 +9,7 @@ namespace WebAlbum.Services
     public interface ICategoryService
     {
         public Category AddTag(AddTagRequest request);
-        public GetTagsResponse GetTags(GetTagsRequest request);
+        public IEnumerable<TagsResponse> GetTags(GetTagsRequest request);
         public Category DeleteTag(DeleteTagRequest request);
         public Category GetCategoryByName(string name);
     }
@@ -36,13 +36,13 @@ namespace WebAlbum.Services
             return category;
         }
 
-        public GetTagsResponse GetTags(GetTagsRequest request)
+        public IEnumerable<TagsResponse> GetTags(GetTagsRequest request)
         {
             
              var accountId = _jwtUtils.ValidateJwtToken(request.UserToken);
              var categories = _context.Categories.Where(x => x.AccountId == accountId);
 
-             var response = _mapper.Map<GetTagsResponse>(categories);
+             var response = _mapper.Map<IList<TagsResponse>>(categories);
 
              return response;
         }
