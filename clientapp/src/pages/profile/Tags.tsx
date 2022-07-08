@@ -5,16 +5,23 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import MyTextField from '../../components/TextField';
 import TagItem from '../../components/TagItem';
 import { ProfileDataProvider } from '../../data/ProfileDataProvider';
+import { regexEmpty } from '../../components/Utils';
 
 const Tags = () => {
 	const [jwtToken, setJwtToken] = useState('');
 	const [tags, changeTags] = React.useState<string[]>(['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4']);
 	const [newTag, setNewTag] = React.useState('');
 	
+	const [emptyNewTag, seEmptyNewTag] = React.useState(true);
 	
 	useEffect(() => {
 		setJwtToken(localStorage.getItem('jwtToken') ?? '');
 	}, []);
+
+	// validation
+	useEffect(() => {
+		seEmptyNewTag(!regexEmpty.test(newTag));
+	}, [newTag]);
 
 	const onAddTagClick = () => {
 		return ProfileDataProvider.addTag(jwtToken, newTag)
@@ -50,7 +57,7 @@ const Tags = () => {
 						/>
 					</Grid>
 					<Grid item xs={3}>
-						<Button fullWidth onClick={onAddTagClick} variant="contained" sx={{height: '56px'}}>
+						<Button fullWidth disabled={emptyNewTag} onClick={onAddTagClick} variant="contained" sx={{height: '56px'}}>
 							{'Add'}
 						</Button>
 					</Grid>
