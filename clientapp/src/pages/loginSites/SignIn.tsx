@@ -27,15 +27,7 @@ return (
 
 const theme = createTheme();
 
-interface iSignIn {
-	status?: string;
-}
-
-const SignIn = (props: iSignIn) => {
-
-	const {
-		status,
-	} = props;
+const SignIn = () => {
 
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
@@ -44,10 +36,11 @@ const SignIn = (props: iSignIn) => {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		return AuthenticationDataProvider.signIn(email, password)
-		.then(token => {
-			console.log(token);
-			if (token) {
-				window.location.replace("/mainPage/" + token);
+		.then(jwtToken => {
+			console.log(jwtToken);
+			if (jwtToken) {
+				window.location.replace("/mainPage");
+				localStorage.setItem('jwtToken', jwtToken);
 			} else {
 				setError(true);
 			}
@@ -86,7 +79,7 @@ const SignIn = (props: iSignIn) => {
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					{'Sign in'}
+					{'Sign In'}
 				</Typography>
 				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
 					<TextField
@@ -120,24 +113,19 @@ const SignIn = (props: iSignIn) => {
 						{'Sign in'}
 					</Button>
 					<Grid container>
-						<Grid item xs>
-							<Link href="#" variant="body2">
-								{'Forgot password?'}
-							</Link>
-						</Grid>
-						<Grid item>
+						<Grid item xs={8}>
 							<Link href="/signUp" variant="body2">
 								{"Don't have an account? Sign Up"}
 							</Link>
 						</Grid>
+						<Grid item xs={8}>
+							<Link href="#" variant="body2">
+								{'Forgot password?'}
+							</Link>
+						</Grid>				
 					</Grid>
-					{status === '200' &&
-						<Typography component="h1" variant="h5" sx={{color: '#27db17', mt: '20px'}}>
-							{'Account successfully created!'}
-						</Typography>
-					}
 					{error &&
-						<Typography component="h1" variant="h5" sx={{color: '#ff5252', mt: '20px'}}>
+						<Typography fontSize={'16px'} component="h1" variant="h5" sx={{color: '#ff5252', mt: '20px'}}>
 						{'Error occurs :('}
 						<br/>
 						{'Try again later.'}
