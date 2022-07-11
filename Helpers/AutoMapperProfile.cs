@@ -44,6 +44,7 @@ namespace WebAlbum.Helpers
             CreateMap<UpdateFolderRequest, Folder>();
             CreateMap<Folder, FolderResponse>();
             //category
+            CreateMap<CreateCategoryRequest, Category>();
             CreateMap<UpdateCategoryRequest, Category>();
             CreateMap<Category, CategoryResponse>();
 

@@ -2,7 +2,7 @@
 
 namespace WebAlbum.Models.Categores.Request
 {
-    public class AddCategoryRequest
+    public class CreateCategoryRequest
     {
         [Required]
         public string CategoryName { get; set; }

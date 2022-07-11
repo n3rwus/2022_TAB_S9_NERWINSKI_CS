@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using WebAlbum.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAlbum.Entities;
 using WebAlbum.Models.Images.Request;
@@ -10,10 +10,10 @@ namespace WebAlbum.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class ImageController : BaseController
+    public class ImagesController : BaseController
     {
         private readonly IImageService _imageService;
-        public ImageController(IImageService imageService)
+        public ImagesController(IImageService imageService)
         {
             _imageService = imageService;
         }
@@ -28,7 +28,7 @@ namespace WebAlbum.Controllers
         [HttpGet("{id:int}")]
         public ActionResult<ImageResponse> GetById(int id)
         {
-            if (id != Account.Id && Account.Role != Role.Admin)
+            if (id != Account.Id)
                 return Unauthorized(new {message = "Unauthorized" });
 
             var image = _imageService.GetById(id);
@@ -48,7 +48,7 @@ namespace WebAlbum.Controllers
         [HttpPost]
         public ActionResult<ImageResponse> Create(CreateImageRequest model)
         {
-            var image = _imageService.Create( model);
+            var image = _imageService.Create(model);
             return Ok(image);
         }
 
