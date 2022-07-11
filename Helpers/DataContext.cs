@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using WebAlbum.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using WebAlbum.Models.Categores.Response;
 
 namespace WebAlbum.Helpers
 {
@@ -163,5 +164,7 @@ namespace WebAlbum.Helpers
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<WebAlbum.Models.Categores.Response.CategoryResponse>? CategoryResponse { get; set; }
     }
 }

@@ -75,7 +75,7 @@ namespace WebAlbum.Controllers
         [HttpPost("forgot-password")]
         public IActionResult ForgotPassword(ForgotPasswordRequest model)
         {
-            _accountService.ForgotPassword(model, Request.Headers["origin"]);
+            _accountService.ForgotPassword(model, Request.Headers["origin"].ToString());
             return Ok(new { message = "Please check your email for password reset instructions" });
         }
 

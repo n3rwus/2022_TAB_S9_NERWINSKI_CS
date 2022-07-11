@@ -314,7 +314,7 @@ namespace WebAlbum.Services
             var token = Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
 
             // ensure token is unique by checking against db
-            var tokenIsUnique = !_context.Accounts.Any(x => x.ResetToken == token);
+            var tokenIsUnique = !_context.Accounts.Any(x => Convert.ToString(x.ResetToken) == token);
             if (!tokenIsUnique)
                 return generateResetToken();
 

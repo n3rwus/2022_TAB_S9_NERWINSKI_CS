@@ -36,15 +36,16 @@ namespace WebAlbum.Controllers
         [HttpPut("{id:int}")]
         public ActionResult<CategoryResponse> Update(int id, UpdateCategoryRequest model)
         {
-            var category = _categoryService.Update(id, model);
-            return Ok(category);
+            _categoryService.Update(id, model);
+            return NoContent();
         }
 
         [HttpPost]
         public ActionResult<CategoryResponse> Create(CreateCategoryRequest model)
         {
-            var category = _categoryService.Create(model);
-            return Ok(category);
+            Console.WriteLine(Account.Id);
+            _categoryService.Create(model);
+            return NoContent();
         }
 
         [HttpDelete("{id:int}")]
