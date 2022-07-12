@@ -1,4 +1,6 @@
 ﻿using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
+using WebAlbum.Helpers;
 
 namespace WebAlbum.Models.Categores.Response
 {
@@ -6,8 +8,5 @@ namespace WebAlbum.Models.Categores.Response
     {
         public int Id { get; set; }
         public string CategoryName { get; set; }
-
-        [JsonIgnore]
-        public int AccountId { get; set; }
     }
 }

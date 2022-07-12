@@ -10,12 +10,12 @@ namespace WebAlbum.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
-    public class CategorysController : BaseController
+    [Route("api/[controller]")]
+    public class CategoriesController : BaseController
     {
         private readonly ICategoryService _categoryService;
 
-        public CategorysController(ICategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
@@ -23,7 +23,7 @@ namespace WebAlbum.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<CategoryResponse>> GetAll()
         {
-            var categories = _categoryService.GetAll().Where(x => x.AccountId == Account.Id);
+            var categories = _categoryService.GetAll();
             return Ok(categories);
         }
 
@@ -44,7 +44,6 @@ namespace WebAlbum.Controllers
         [HttpPost]
         public ActionResult<CategoryResponse> Create(CreateCategoryRequest model)
         {
-            model.AccountId = Account.Id;
             _categoryService.Create(model);
             return NoContent();
         }

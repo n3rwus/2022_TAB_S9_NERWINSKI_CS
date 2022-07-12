@@ -3,11 +3,10 @@ using System.Text.Json.Serialization;
 
 namespace WebAlbum.Models.Categores.Request
 {
-    public class DeleteCategoryRequest
+    public class CreateCategoryRequest
     {
         [Required]
-        public int Id { get; set; }
-        [JsonIgnore]
-        public int AccountId { get; set; }
+        public string CategoryName { get; set; }
+
     }
 }

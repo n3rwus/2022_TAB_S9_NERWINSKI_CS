@@ -56,11 +56,12 @@ namespace WebAlbum.Services
         }
 
         public CategoryResponse Update(int id, UpdateCategoryRequest model)
-        {
+        {            
             var category = getCategory(id);
             if (category == null) throw new KeyNotFoundException("Category not found");
             _mapper.Map(model, category);
             _context.Categories.Update(category);
+            _context.SaveChanges();
             return _mapper.Map<CategoryResponse>(category);
         }
 
