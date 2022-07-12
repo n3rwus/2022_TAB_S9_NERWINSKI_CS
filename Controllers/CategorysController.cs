@@ -4,6 +4,7 @@ using WebAlbum.Entities;
 using WebAlbum.Models.Categores.Request;
 using WebAlbum.Models.Categores.Response;
 using WebAlbum.Services;
+using System.Security.Claims;
 
 namespace WebAlbum.Controllers
 {
@@ -22,7 +23,7 @@ namespace WebAlbum.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<CategoryResponse>> GetAll()
         {
-            var categories = _categoryService.GetAll();
+            var categories = _categoryService.GetAll().Where(x => x.AccountId == Account.Id);
             return Ok(categories);
         }
 
@@ -43,7 +44,7 @@ namespace WebAlbum.Controllers
         [HttpPost]
         public ActionResult<CategoryResponse> Create(CreateCategoryRequest model)
         {
-            Console.WriteLine(Account.Id);
+            model.AccountId = Account.Id;
             _categoryService.Create(model);
             return NoContent();
         }
@@ -52,7 +53,7 @@ namespace WebAlbum.Controllers
         public IActionResult Delete(int id)
         {
             // users can delete their own Category
-
+            
             _categoryService.Delete(id);
             return Ok(new { message = "Category deleted successfully" });
         }

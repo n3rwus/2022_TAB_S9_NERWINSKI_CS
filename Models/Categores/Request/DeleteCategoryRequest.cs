@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace WebAlbum.Models.Categores.Request
 {
@@ -6,5 +7,7 @@ namespace WebAlbum.Models.Categores.Request
     {
         [Required]
         public int Id { get; set; }
+        [JsonIgnore]
+        public int AccountId { get; set; }
     }
 }
