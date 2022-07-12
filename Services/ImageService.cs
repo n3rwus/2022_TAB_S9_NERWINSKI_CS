@@ -12,34 +12,32 @@ namespace WebAlbum.Services
     {
         IEnumerable<ImageResponse> GetAll();
         ImageResponse GetById(int id);
-        ImageResponse Create(CreateImageRequest model);
+        void Create(CreateImageRequest model);
         ImageResponse Update(int id, UpdateImageRequest model);
         void Delete(int id);
     }
     public class ImageService : IImageService
     {
         private readonly DataContext _context;
+        private readonly IJwtUtils _jwtUtils;
+        private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
 
         public ImageService(
-            DataContext context,
-            IJwtUtils jwtUtils,
-            IMapper mapper)
+            DataContext context, IJwtUtils jwtUtils, IMapper mapper, ICategoryService categoryService)
         {
             _context = context;
+            _jwtUtils = jwtUtils;
+            _categoryService = categoryService;
             _mapper = mapper;
         }
 
-
-        public ImageResponse Create(CreateImageRequest model)
-        {
+        public void Create(CreateImageRequest model)
+        {      
             var image = _mapper.Map<Image>(model);
             image.ImageDateOfCreate = DateTime.Now;
-
             _context.Images.Add(image);
             _context.SaveChanges();
-            return _mapper.Map<ImageResponse>(image);
-
         }
 
         public void Delete(int id)

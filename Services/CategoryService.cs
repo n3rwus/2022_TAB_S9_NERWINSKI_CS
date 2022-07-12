@@ -11,6 +11,7 @@ namespace WebAlbum.Services
     {
         IEnumerable<CategoryResponse> GetAll();
         CategoryResponse GetById(int id);
+        public Category GetCategoryByName(string name);
         CategoryResponse Create(CreateCategoryRequest model);
         CategoryResponse Update(int id, UpdateCategoryRequest model);
         void Delete(int id);
@@ -70,6 +71,11 @@ namespace WebAlbum.Services
             var category = _context.Categories.Find(id);
             if (category == null) throw new KeyNotFoundException("Category not found");
             return category;
+        }
+
+        public Category GetCategoryByName(string name)
+        {
+            return _context.Categories.FirstOrDefault(x => x.CategoryName == name);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace WebAlbum.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ImagesController : BaseController
     {
         private readonly IImageService _imageService;
@@ -45,11 +45,20 @@ namespace WebAlbum.Controllers
             return Ok(image);
         }
 
+        //1. jako parametr podać list
+        //2. interacja po liście foreach
+        //3. dodawanie elementów do bazy
+        //4. return Liste
         [HttpPost]
-        public ActionResult<ImageResponse> Create(CreateImageRequest model)
+        public ActionResult Create(IList<CreateImageRequest> model)
         {
-            var image = _imageService.Create(model);
-            return Ok(image);
+            Image image = new();
+            foreach (var item in model)
+            {
+                item.AccountId = Account.Id;
+                _imageService.Create(item);
+            }
+            return NoContent();
         }
 
         [HttpDelete("{id:int}")]
