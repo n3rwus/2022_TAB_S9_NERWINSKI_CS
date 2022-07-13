@@ -9,7 +9,7 @@ namespace WebAlbum.Models.Images.Request
         public int? FolderId { get; set; }
         public string? ImageTitle { get; set; }
         public string? ImageDescription { get; set; }
-        public List<string>? Categores { get; set; }
+        public List<int>? CategoresId { get; set; }
         public DateTime? ImageDateOfCreate { get; set; }
 
     }

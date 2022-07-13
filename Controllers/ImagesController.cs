@@ -30,21 +30,15 @@ namespace WebAlbum.Controllers
         [HttpGet("{id:int}")]
         public ActionResult<ImageResponse> GetById(int id)
         {
-            if (id != Account.Id)
-                return Unauthorized(new {message = "Unauthorized" });
-
             var image = _imageService.GetById(id);
             return Ok(image);
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult<ImageResponse> Update(int id, UpdateImageRequest model)
+        public ActionResult Update(int id, UpdateImageRequest model)
         {
-            if (id != Account.Id && Account.Role != Role.Admin)
-                return Unauthorized(new { message = "Unauthorized" });
-
             var image = _imageService.Update(id, model);
-            return Ok(image);
+            return NoContent();
         }
 
         //1. jako parametr podać list
@@ -71,7 +65,13 @@ namespace WebAlbum.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            
+           /* if (_imageService.isAuthForImage(Account.Id, id))
+            {
+                _imageService.Delete(id);
+                return Ok(new { message = "Image deleted successfully" });
+            }
+            return BadRequest();*/
+
             _imageService.Delete(id);
             return Ok(new { message = "Image deleted successfully" });
         }

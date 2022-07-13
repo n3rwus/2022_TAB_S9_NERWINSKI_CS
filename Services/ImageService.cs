@@ -74,5 +74,19 @@ namespace WebAlbum.Services
             if (image == null) throw new KeyNotFoundException("Image not found");
             return image;
         }
+
+        //kubii edytował
+      /*  private bool isAuthForImage(int accId, int imgId)
+        {
+            var img = _context.Images.SingleOrDefault(i => i.Id == imgId);
+            if (img != null)
+            {
+                if (img.AccountId == accId)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }*/
     }
 }
