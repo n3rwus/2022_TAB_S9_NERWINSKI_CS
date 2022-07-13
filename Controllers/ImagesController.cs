@@ -13,9 +13,11 @@ namespace WebAlbum.Controllers
     public class ImagesController : BaseController
     {
         private readonly IImageService _imageService;
+        private int _accountId;
         public ImagesController(IImageService imageService)
         {
             _imageService = imageService;
+            _accountId = Account.Id;
         }
 
         [HttpGet]
@@ -49,13 +51,18 @@ namespace WebAlbum.Controllers
         //2. interacja po liście foreach
         //3. dodawanie elementów do bazy
         //4. return Liste
+
+        // Na froncie uzytkownik wybiera kategorie po nazwie
+        // ale na backend jest wysylane tylko jego Id
+        // przez co tworzymy liste Id kategorii
+        // to samo z folderami
         [HttpPost]
         public ActionResult Create(IList<CreateImageRequest> model)
         {
-            Image image = new();
             foreach (var item in model)
             {
-                item.AccountId = Account.Id;
+                item.AccountId = _accountId;
+                item.DateOfCreate = DateTime.Now;
                 _imageService.Create(item);
             }
             return NoContent();
@@ -64,12 +71,9 @@ namespace WebAlbum.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            // users can delete their own account and admins can delete any account
-            if (id != Account.Id && Account.Role != Role.Admin)
-                return Unauthorized(new { message = "Unauthorized" });
-
+            
             _imageService.Delete(id);
-            return Ok(new { message = "Account deleted successfully" });
+            return Ok(new { message = "Image deleted successfully" });
         }
 
     }
