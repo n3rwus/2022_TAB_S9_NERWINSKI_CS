@@ -7,6 +7,7 @@ namespace WebAlbum.Entities
 {
     public partial class ImageCategory
     {
+        public ImageCategory() { }
         public ImageCategory(int? imageId, int? categoryId, Category? category, Image? image)
         {
             ImageId = imageId;

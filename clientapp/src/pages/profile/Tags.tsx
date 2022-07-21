@@ -1,31 +1,79 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import MyTextField from '../../components/TextField';
 import TagItem from '../../components/TagItem';
+import { iTags, ProfileDataProvider } from '../../data/ProfileDataProvider';
+import { regexEmpty } from '../../components/Utils';
 
-interface iTags {
-	token ?: string;
-}
+const Tags = () => {
+	const [jwtToken, setJwtToken] = useState('');
 
-const Tags = (props: iTags) => {
-	const [tags, changeTags] = React.useState<string[]>(['Piotrek', 'Adam', 'Mikołaj', 'Michał']);
+	const [tags, changeTags] = React.useState<iTags[]>([]);
 	const [newTag, setNewTag] = React.useState('');
+	
+	const [emptyNewTag, seEmptyNewTag] = React.useState(true);
 
-	const {
-		token,
-	} = props;
+	// ComponentDidMount
 
+	useEffect(() => {
+		const token = localStorage.getItem('jwtToken');
+		if (token) {
+			getTags(token);
+			setJwtToken(localStorage.getItem('jwtToken') ?? '');
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	// validation
+	useEffect(() => {
+		seEmptyNewTag(!regexEmpty.test(newTag));
+	}, [newTag]);
+
+
+	// Methods
+	const getTags = (jwtToken: string) => {
+		ProfileDataProvider.getTag(jwtToken)
+		.then((response) => {
+			if (typeof response === typeof tags) {
+				changeTags(response as iTags[]);
+			}
+		});
+	}
+
+	const onAddTagClick = () => {
+		return ProfileDataProvider.addTag(jwtToken, newTag)
+		.then(status => {
+			if (status === 200) {
+				getTags(jwtToken);
+			}
+			console.log(status);
+		});
+	}
+
+	const onDeleteTagClick = (jwtToken: string, id: string) => {
+		return ProfileDataProvider.deleteTag(jwtToken, id)
+		.then(status => {
+			if (status === 200) {
+				getTags(jwtToken);
+			}
+		});
+	}
+
+	// Prerender
 	const renderTags = tags.map(tag => (
-		<TagItem name={tag}/>
+		<TagItem
+			jwtToken={jwtToken}
+			name={tag.name}
+			id={tag.id}
+			onDelete={onDeleteTagClick}
+		/>
 	));
 
 	return (
 		<React.Fragment>
-			<Navbar
-				token={token}
-			/>
+			<Navbar  />
 			<Box sx={{ flexGrow: 1, width: '80%', mx: 'auto' }}>
 				<Grid container spacing={8} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems='center' textAlign={'center'}>
 					<Grid item xs={12}>
@@ -46,7 +94,7 @@ const Tags = (props: iTags) => {
 						/>
 					</Grid>
 					<Grid item xs={3}>
-						<Button fullWidth variant="contained" sx={{height: '56px'}}>
+						<Button fullWidth disabled={emptyNewTag} onClick={onAddTagClick} variant="contained" sx={{height: '56px'}}>
 							{'Add'}
 						</Button>
 					</Grid>

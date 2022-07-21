@@ -3,7 +3,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Card, CardContent, Typography } from '@mui/material';
 
 interface iTagItem {
+	jwtToken: string;
 	name: string;
+	id: string;
+	onDelete: (jwtToken: string, id: string) => void;
 }
 
 const TagItem = (props: iTagItem) => {
@@ -21,7 +24,10 @@ const TagItem = (props: iTagItem) => {
 	 }, []);
 
 	const {
+		jwtToken,
 		name,
+		id,
+		onDelete,
 	} = props;
 
 	return (
@@ -31,7 +37,7 @@ const TagItem = (props: iTagItem) => {
 					<Typography align='center' sx={{ fontSize: 20, color: color }} style={{wordWrap: 'break-word'}}>
 						{name}
 					</Typography>
-					<Button variant="contained" fullWidth startIcon={<DeleteIcon />} sx={{ mt: '20px', ':hover': {backgroundColor: '#ff5252'} }}>
+					<Button variant="contained" onClick={() => onDelete(jwtToken, id)} fullWidth startIcon={<DeleteIcon />} sx={{ mt: '20px', ':hover': {backgroundColor: '#ff5252'} }}>
 						{'Delete'}
 					</Button>
 				</CardContent>

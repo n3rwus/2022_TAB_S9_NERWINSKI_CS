@@ -11,7 +11,6 @@ import { Link } from '@mui/material';
 
 interface iNavbar {
 	centerText?: string;
-	token?: string;
 }
 
 export default function Navbar(props: iNavbar) {
@@ -29,19 +28,18 @@ export default function Navbar(props: iNavbar) {
 		handleClose();
 		event.preventDefault();
 		const { myValue } = event.currentTarget.dataset;
-		window.location.replace(myValue + (myValue !== '/' ? token : ""));
+		window.location.replace(myValue);
 	};
 
 	const { 
 		centerText,
-		token,
 	} = props;
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 		<AppBar position="static" sx={{ backgroundColor: '#1976d2' }}>
 			<Toolbar>
-			<Link href={'/mainPage/' + token} underline={'none'}>
+			<Link href={'/mainPage'} underline={'none'}>
 				<Typography variant="h6" component="div" sx={{ flexGrow: 1, color: '#FFF' }}>
 				{'Picture Drive App'}
 				</Typography>
@@ -79,19 +77,19 @@ export default function Navbar(props: iNavbar) {
 				>
 					<MenuItem 
 						onClick={handleClick} 
-						data-my-value={'/addPicture/'}
+						data-my-value={'/addPicture'}
 					>
 						{'Add Picture'}
 					</MenuItem>
 					<MenuItem 
 						onClick={handleClick} 
-						data-my-value={'/profile/'}
+						data-my-value={'/profile'}
 					>
 						{'Profile'}
 					</MenuItem>
 					<MenuItem 
 						onClick={handleClick} 
-						data-my-value={'/gallery/'}
+						data-my-value={'/gallery'}
 					>
 						{'Gallery'}
 					</MenuItem>

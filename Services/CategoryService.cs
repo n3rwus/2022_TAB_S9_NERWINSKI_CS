@@ -36,14 +36,14 @@ namespace WebAlbum.Services
             return category;
         }
 
+
         public GetCategoryResponse GetTags(GetCategoryRequest request)
-        {
-            
+        {     
              var accountId = _jwtUtils.ValidateJwtToken(request.UserToken);
              var categories = _context.Categories.Where(x => x.AccountId == accountId);
-
+             
              var response = _mapper.Map<GetCategoryResponse>(categories);
-
+             
              return response;
         }
 

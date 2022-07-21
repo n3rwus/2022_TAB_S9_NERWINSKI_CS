@@ -1,4 +1,5 @@
 ﻿using WebAlbum.Entities;
+using WebAlbum.Models.Images;
 
 namespace WebAlbum.Models.Folders
 {
@@ -6,6 +7,6 @@ namespace WebAlbum.Models.Folders
     {
         public string FolderName { get; set; }
         public ICollection<Folder> NestedFolders { get; set; }
-        public ICollection<GetFolderResponse> Images { get; set; }
+        public ICollection<GetImageResponse> Images { get; set; }
     }
 }

@@ -38,6 +38,8 @@ namespace WebAlbum.Helpers
 
             CreateMap<AddCategoryRequest, Category>();
 
+            CreateMap<Category, TagsResponse>();
+
             CreateMap<AddFolderRequest, Folder>();
 
             CreateMap<Folder, GetFolderResponse>();
