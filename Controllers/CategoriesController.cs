@@ -10,7 +10,7 @@ namespace WebAlbum.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class CategoriesController : BaseController
     {
         private readonly ICategoryService _categoryService;
@@ -44,6 +44,7 @@ namespace WebAlbum.Controllers
         [HttpPost]
         public ActionResult<CategoryResponse> Create(CreateCategoryRequest model)
         {
+            model.AccountId = Account.Id;
             _categoryService.Create(model);
             return NoContent();
         }

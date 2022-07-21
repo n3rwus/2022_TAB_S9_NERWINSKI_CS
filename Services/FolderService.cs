@@ -3,6 +3,7 @@ using WebAlbum.Models.Folders.Request;
 using WebAlbum.Helpers;
 using AutoMapper;
 using WebAlbum.Authorization;
+using WebAlbum.Entities;
 
 namespace WebAlbum.Services
 {
@@ -10,7 +11,7 @@ namespace WebAlbum.Services
     {
         IEnumerable<FolderResponse> GetAll();
         FolderResponse GetById(int id);
-        FolderResponse Create(CreateFolderRequest model);
+        void Create(CreateFolderRequest model);
         FolderResponse Update(int id, UpdateFolderRequest model);
         void Delete(int id);
     }
@@ -27,9 +28,10 @@ namespace WebAlbum.Services
             _mapper = mapper;
         }
 
-        public FolderResponse Create(CreateFolderRequest model)
+        public void Create(CreateFolderRequest model)
         {
-            throw new NotImplementedException();
+            var folder = _mapper.Map<Folder>(model);
+            _context.Folders.Add(folder);
         }
 
         public void Delete(int id)

@@ -9,7 +9,7 @@ namespace WebAlbum.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class AccountsController : BaseController
     {
         private readonly IAccountService _accountService;

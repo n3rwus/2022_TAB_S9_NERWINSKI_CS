@@ -61,6 +61,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IEmailService, EmailService>();
     services.AddScoped<ICategoryService, CategoryService>();
     services.AddScoped<IImageService, ImageService>();
+    services.AddScoped<IFolderService, FolderService>();
 }
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -99,10 +100,8 @@ using (var scope = app.Services.CreateScope())
     app.UseAuthentication();
     app.UseRouting();
     app.UseAuthorization();
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllers();
-    });
+    app.UseEndpoints(endpoints => endpoints.MapControllers());
+   
 }
 
 app.Run("http://localhost:4000");

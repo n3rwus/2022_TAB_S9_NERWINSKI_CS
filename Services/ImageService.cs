@@ -7,7 +7,6 @@ using WebAlbum.Models.Images.Response;
 
 namespace WebAlbum.Services
 {
-
     public interface IImageService
     {
         IEnumerable<ImageResponse> GetAll();

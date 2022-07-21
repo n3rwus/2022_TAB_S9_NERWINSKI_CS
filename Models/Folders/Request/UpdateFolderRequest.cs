@@ -9,5 +9,6 @@ namespace WebAlbum.Models.Folders.Request
         public string? FolderName { get; set; } = null!;
         public string? FolderDescription { get; set; }
         public int? ParentFolderId { get; set; }
+        public List<int>? InverseParentFolder { get; set; }
     }
 }
