@@ -17,7 +17,7 @@ namespace WebAlbum.Controllers
         }
 
         [HttpPost("AddTag")]
-        public IActionResult AddTag(AddTagRequest request)
+        public IActionResult AddTag(AddCategoryRequest request)
         {
             var result = _categoryService.AddTag(request);
 
@@ -26,7 +26,7 @@ namespace WebAlbum.Controllers
         }
 
         [HttpPost("GetTags")]
-        public IActionResult GetTags(GetTagsRequest request)
+        public IActionResult GetTags(GetCategoryRequest request)
         {
             var result = _categoryService.GetTags(request);
 
@@ -35,7 +35,7 @@ namespace WebAlbum.Controllers
         }
 
         [HttpPost("DeleteTag")]
-        public IActionResult DeleteTag(DeleteTagRequest request)
+        public IActionResult DeleteTag(DeleteCategoryRequest request)
         {
             var result = _categoryService.DeleteTag(request);
 

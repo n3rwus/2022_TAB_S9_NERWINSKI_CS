@@ -16,7 +16,7 @@ namespace WebAlbum.Helpers
             CreateMap<Account, AccountResponse>();
 
             CreateMap<Account, AuthenticateResponse>();
-
+            
             CreateMap<RegisterRequest, Account>();
 
             CreateMap<CreateRequest, Account>();
@@ -36,7 +36,7 @@ namespace WebAlbum.Helpers
                     }
                 ));
 
-            CreateMap<AddTagRequest, Category>();
+            CreateMap<AddCategoryRequest, Category>();
 
             CreateMap<Category, TagsResponse>();
 

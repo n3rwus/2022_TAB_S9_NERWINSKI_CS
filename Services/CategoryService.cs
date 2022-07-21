@@ -8,9 +8,9 @@ namespace WebAlbum.Services
 {
     public interface ICategoryService
     {
-        public Category AddTag(AddTagRequest request);
-        public IEnumerable<TagsResponse> GetTags(GetTagsRequest request);
-        public Category DeleteTag(DeleteTagRequest request);
+        public Category AddTag(AddCategoryRequest request);
+        public GetCategoryResponse GetTags(GetCategoryRequest request);
+        public Category DeleteTag(DeleteCategoryRequest request);
         public Category GetCategoryByName(string name);
     }
 
@@ -27,7 +27,7 @@ namespace WebAlbum.Services
             _jwtUtils = jwtUtils;
         }
 
-        public Category AddTag(AddTagRequest request)
+        public Category AddTag(AddCategoryRequest request)
         {
             var category = _mapper.Map<Category>(request);
             category.AccountId = _jwtUtils.ValidateJwtToken(request.UserToken);
@@ -36,18 +36,18 @@ namespace WebAlbum.Services
             return category;
         }
 
-        public IEnumerable<TagsResponse> GetTags(GetTagsRequest request)
-        {
-            
+
+        public GetCategoryResponse GetTags(GetCategoryRequest request)
+        {     
              var accountId = _jwtUtils.ValidateJwtToken(request.UserToken);
              var categories = _context.Categories.Where(x => x.AccountId == accountId);
-
-             var response = _mapper.Map<IList<TagsResponse>>(categories);
-
+             
+             var response = _mapper.Map<GetCategoryResponse>(categories);
+             
              return response;
         }
 
-        public Category DeleteTag(DeleteTagRequest request)
+        public Category DeleteTag(DeleteCategoryRequest request)
         {
             var tag = _context.Categories.FirstOrDefault(x => x.Id == request.Id);
             _context.Categories.Remove(tag);
