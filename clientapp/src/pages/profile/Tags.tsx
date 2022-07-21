@@ -4,18 +4,26 @@ import Navbar from '../../components/Navbar';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import MyTextField from '../../components/TextField';
 import TagItem from '../../components/TagItem';
-import { ProfileDataProvider } from '../../data/ProfileDataProvider';
+import { iTags, ProfileDataProvider } from '../../data/ProfileDataProvider';
 import { regexEmpty } from '../../components/Utils';
 
 const Tags = () => {
 	const [jwtToken, setJwtToken] = useState('');
-	const [tags, changeTags] = React.useState<string[]>(['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4']);
+
+	const [tags, changeTags] = React.useState<iTags[]>([]);
 	const [newTag, setNewTag] = React.useState('');
 	
 	const [emptyNewTag, seEmptyNewTag] = React.useState(true);
-	
+
+	// ComponentDidMount
+
 	useEffect(() => {
-		setJwtToken(localStorage.getItem('jwtToken') ?? '');
+		const token = localStorage.getItem('jwtToken');
+		if (token) {
+			getTags(token);
+			setJwtToken(localStorage.getItem('jwtToken') ?? '');
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// validation
@@ -23,15 +31,44 @@ const Tags = () => {
 		seEmptyNewTag(!regexEmpty.test(newTag));
 	}, [newTag]);
 
+
+	// Methods
+	const getTags = (jwtToken: string) => {
+		ProfileDataProvider.getTag(jwtToken)
+		.then((response) => {
+			if (typeof response === typeof tags) {
+				changeTags(response as iTags[]);
+			}
+		});
+	}
+
 	const onAddTagClick = () => {
 		return ProfileDataProvider.addTag(jwtToken, newTag)
 		.then(status => {
+			if (status === 200) {
+				getTags(jwtToken);
+			}
 			console.log(status);
 		});
 	}
 
+	const onDeleteTagClick = (jwtToken: string, id: string) => {
+		return ProfileDataProvider.deleteTag(jwtToken, id)
+		.then(status => {
+			if (status === 200) {
+				getTags(jwtToken);
+			}
+		});
+	}
+
+	// Prerender
 	const renderTags = tags.map(tag => (
-		<TagItem name={tag}/>
+		<TagItem
+			jwtToken={jwtToken}
+			name={tag.name}
+			id={tag.id}
+			onDelete={onDeleteTagClick}
+		/>
 	));
 
 	return (

@@ -37,9 +37,9 @@ function App() {
 				<Route exact path={'/addPicture'} >
 					<AddImage />
 				</Route>
-				<Route exact path={'/gallery/:token'} render={(props) => (
-					<Gallery token={props.match.params.token}/>)}
-				/>
+				<Route exact path={'/gallery'} >
+					<Gallery />
+				</Route>
 				<Route exact path={'/profile'} >
 					<Profile />
 				</Route>
