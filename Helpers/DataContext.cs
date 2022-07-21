@@ -89,7 +89,8 @@ namespace WebAlbum.Helpers
                 entity.HasOne(d => d.ParentFolder)
                     .WithMany(p => p.InverseParentFolder)
                     .HasForeignKey(d => d.ParentFolderId)
-                    .HasConstraintName("FK_Folder_ParentFolder");
+                    .HasConstraintName("FK_Folder_ParentFolder")
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Image>(entity =>
@@ -112,7 +113,8 @@ namespace WebAlbum.Helpers
                 entity.HasOne(d => d.Folder)
                     .WithMany(p => p.Images)
                     .HasForeignKey(d => d.FolderId)
-                    .HasConstraintName("FK_Image_Folder");
+                    .HasConstraintName("FK_Image_Folder")
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<ImageCategory>(entity =>
