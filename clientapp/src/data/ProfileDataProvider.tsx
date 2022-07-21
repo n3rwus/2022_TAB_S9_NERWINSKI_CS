@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { error } from 'console';
 
 axios.defaults.withCredentials = true;
 

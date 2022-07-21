@@ -4,6 +4,7 @@ import Navbar from '../../components/Navbar';
 import PhotoLibraryRoundedIcon from '@mui/icons-material/PhotoLibraryRounded';
 import MyTextField from '../../components/TextField';
 import FolderItem from '../../components/FolderItem';
+import { GalleryDataProvider } from '../../data/GalleryDataProvider';
 
 const Gallery = () => {
 	const [jwtToken, setJwtToken] = useState('');
@@ -17,6 +18,16 @@ const Gallery = () => {
 
 	const [folders, setFolders] = React.useState(['Folder 1', 'Folder 2', 'Folder 3']);
 	const [newFolder, setNewFolder] = React.useState('');
+
+	const onAddTagClick = () => {
+		return GalleryDataProvider.addFolder(jwtToken, newFolder)
+		.then(status => {
+			if (status === 200) {
+				//getFolders(jwtToken);
+			}
+			console.log(status);
+		});
+	}
 
 	const renderFolders = folders.map((folder, index) => (
 		<Grid item xs={12} sm={6} md={4}>
