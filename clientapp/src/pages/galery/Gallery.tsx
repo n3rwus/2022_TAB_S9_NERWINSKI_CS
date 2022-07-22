@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar';
 import PhotoLibraryRoundedIcon from '@mui/icons-material/PhotoLibraryRounded';
 import MyTextField from '../../components/TextField';
 import FolderItem from '../../components/FolderItem';
-import { GalleryDataProvider, iFolder } from '../../data/GalleryDataProvider';
+import { GalleryDataProvider, iSimplyFolder } from '../../data/GalleryDataProvider';
 
 const Gallery = () => {
 	const [jwtToken, setJwtToken] = useState('');
@@ -17,14 +17,14 @@ const Gallery = () => {
 		}
 	}, []);
 
-	const [folders, setFolders] = React.useState<iFolder[]>([]);
+	const [folders, setFolders] = React.useState<iSimplyFolder[]>([]);
 	const [newFolder, setNewFolder] = React.useState('');
 
 	const getFolders = (jwtToken: string) => {
 		GalleryDataProvider.getMainFolder(jwtToken)
 		.then((response) => {
 			if (typeof response === typeof folders) {
-				setFolders(response as iFolder[]);
+				setFolders(response as iSimplyFolder[]);
 			}
 		});
 	}
@@ -48,12 +48,13 @@ const Gallery = () => {
 		});
 	}
 
-	const renderFolders = folders.map((folder, index) => (
+	const renderFolders = folders.map((folder) => (
 		<Grid item xs={12} sm={6} md={4}>
 			<FolderItem
 				key={folder.id}
 				name={folder.folderName}
 				id={folder.id}
+				parentFolderId={'main'}
 				jwtToken={jwtToken}
 				onDelete={onDeleteFolderClick}
 			/>

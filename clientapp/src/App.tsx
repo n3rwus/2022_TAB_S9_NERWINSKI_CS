@@ -49,10 +49,10 @@ function App() {
 				<Route exact path={'/profile/privacy'}  >
 					<Privacy />
 					</Route>
-				<Route exact path={'/gallery/folder/:id/:token'} render={(props) => (
+				<Route exact path={'/gallery/:parentId/folder/:id'} render={(props) => (
 					<Folder
-						jwtToken={props.match.params.token}
-						parentId={props.match.params.id}
+						folderId={props.match.params.id}
+						parentFolderId={props.match.params.parentId}
 					/>)}
 				/>
 				<Route exact path={'/gallery/folder/:folderId/image/:id'} render={(props) => (

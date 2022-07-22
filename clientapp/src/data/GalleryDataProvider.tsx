@@ -15,9 +15,15 @@ interface iUploadImages extends User {
 	images: FileList;
 }
 
-export interface iFolder {
+export interface iSimplyFolder {
 	id: string;
 	folderName: string;
+}
+
+export interface iFolderData {
+	folderName: string;
+	parentFolderId: string;
+	folders: iSimplyFolder[];
 }
 
 export class GalleryDataProvider {
@@ -51,11 +57,11 @@ export class GalleryDataProvider {
 		});
 	}
 
-	public static getFolders(token: string, folder: string ) {
+	public static getFolder(token: string, folderId: string ) {
 		let data = 0;
-		return axios.post(`http://localhost:4000/api/category/AddFolder`, {
+		return axios.post(`http://localhost:4000/api/folder/GetFolder`, {
 			UserToken: token,
-			FolderName: folder,
+			FolderId: folderId,
 		}, {
 			headers: {
 				'Accept' : 'application/json',
@@ -65,8 +71,20 @@ export class GalleryDataProvider {
 		}).then(res => {
 			console.log(res);
 			console.log(res.data);
-			data = res.status;
-			return data;
+			const data = res.data;
+			const folder: iFolderData = {
+				folderName: data.folderName,
+				parentFolderId: data.parentFolderId,
+				folders: [],
+			}
+			data.inverseParentFolder.forEach((item: { folderName: any; id: any; }) => {
+				const nestedFolder: iSimplyFolder = {
+					folderName: item.folderName,
+					id: item.id,
+				}
+				folder.folders.push(nestedFolder);
+			});
+			return folder;
 		}).catch(er => {
 			console.log(er);
 			return data;
@@ -87,9 +105,9 @@ export class GalleryDataProvider {
 			console.log(res);
 			console.log(res.data);
 			const data = res.data;
-			const folders: iFolder[] = [];
+			const folders: iSimplyFolder[] = [];
 			data.forEach((item: { folderName: any; id: any; }) => {
-				const folder: iFolder = {
+				const folder: iSimplyFolder = {
 					folderName: item.folderName,
 					id: item.id,
 				}
