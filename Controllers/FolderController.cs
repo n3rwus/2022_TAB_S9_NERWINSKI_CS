@@ -19,7 +19,7 @@ namespace WebAlbum.Controllers
         }
 
         [HttpPost("GetMainFolder")]
-        public IActionResult GetMainFolder(GetMainFolderRequest request)
+        public IActionResult GetMainFolder(GetMainFoldersRequest request)
         {
             var response = _folderService.GetMainFolder(request);
 

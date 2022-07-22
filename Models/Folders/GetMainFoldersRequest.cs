@@ -1,6 +1,6 @@
 ﻿namespace WebAlbum.Models.Folders
 {
-    public class GetMainFolderRequest
+    public class GetMainFoldersRequest
     {
         public string UserToken { get; set; }
     }

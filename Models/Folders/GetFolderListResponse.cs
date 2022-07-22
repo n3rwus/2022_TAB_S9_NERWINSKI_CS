@@ -2,6 +2,6 @@
 {
     public class GetFolderListResponse
     {
-        ICollection<GetMainFolderResponse> FolderList;
+        ICollection<GetMainFoldersResponse> FolderList;
     }
 }

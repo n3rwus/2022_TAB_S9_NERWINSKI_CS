@@ -5,9 +5,10 @@ import FolderCopyTwoToneIcon from '@mui/icons-material/FolderCopyTwoTone';
 import MyTextField from '../../components/TextField';
 import FolderItem from '../../components/FolderItem';
 import SimplyImage from '../../components/SimplyImage';
+import { GalleryDataProvider } from '../../data/GalleryDataProvider';
 
 interface iFolder {
-	token: string;
+	jwtToken: string;
 	parentId: string;
 }
 
@@ -18,16 +19,25 @@ const Folder = (props: iFolder) => {
 	const [images, setImages] = React.useState(['Image1', 'Image2', 'Image3']);
 
 	const {
-		token,
+		jwtToken,
 		parentId,
 	} = props;
+
+	const onDeleteFolderClick = (jwtToken: string, id: string) => {
+		return GalleryDataProvider.deleteFolder(jwtToken, id)
+		.then(status => {
+			if (status === 200) {
+			}
+		});
+	}
 
 	const renderFolders = folders.map((folder, index) => (
 		<Grid item xs={12} sm={6} md={4}>
 			<FolderItem 
 				name={folder}
 				id={(index + 1).toString()}
-				token={token}
+				jwtToken={jwtToken}
+				onDelete={onDeleteFolderClick}
 			/>
 		</Grid>
 	));

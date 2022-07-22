@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar';
 import PhotoLibraryRoundedIcon from '@mui/icons-material/PhotoLibraryRounded';
 import MyTextField from '../../components/TextField';
 import FolderItem from '../../components/FolderItem';
-import { GalleryDataProvider } from '../../data/GalleryDataProvider';
+import { GalleryDataProvider, iFolder } from '../../data/GalleryDataProvider';
 
 const Gallery = () => {
 	const [jwtToken, setJwtToken] = useState('');
@@ -12,29 +12,50 @@ const Gallery = () => {
 	useEffect(() => {
 		const token = localStorage.getItem('jwtToken');
 		if (token) {
+			getFolders(token);
 			setJwtToken(localStorage.getItem('jwtToken') ?? '');
 		}
 	}, []);
 
-	const [folders, setFolders] = React.useState(['Folder 1', 'Folder 2', 'Folder 3']);
+	const [folders, setFolders] = React.useState<iFolder[]>([]);
 	const [newFolder, setNewFolder] = React.useState('');
 
-	const onAddTagClick = () => {
-		return GalleryDataProvider.addFolder(jwtToken, newFolder)
+	const getFolders = (jwtToken: string) => {
+		GalleryDataProvider.getMainFolder(jwtToken)
+		.then((response) => {
+			if (typeof response === typeof folders) {
+				setFolders(response as iFolder[]);
+			}
+		});
+	}
+
+	const onAddFolderClick = () => {
+		return GalleryDataProvider.addFolder(jwtToken, newFolder, undefined)
 		.then(status => {
 			if (status === 200) {
-				//getFolders(jwtToken);
+				getFolders(jwtToken);
 			}
 			console.log(status);
 		});
 	}
 
+	const onDeleteFolderClick = (jwtToken: string, id: string) => {
+		return GalleryDataProvider.deleteFolder(jwtToken, id)
+		.then(status => {
+			if (status === 200) {
+				getFolders(jwtToken);
+			}
+		});
+	}
+
 	const renderFolders = folders.map((folder, index) => (
 		<Grid item xs={12} sm={6} md={4}>
-			<FolderItem 
-				name={folder}
-				id={(index + 1).toString()}
-				token={jwtToken}
+			<FolderItem
+				key={folder.id}
+				name={folder.folderName}
+				id={folder.id}
+				jwtToken={jwtToken}
+				onDelete={onDeleteFolderClick}
 			/>
 		</Grid>
 	));
@@ -62,7 +83,7 @@ const Gallery = () => {
 						/>
 					</Grid>
 					<Grid item xs={3}>
-						<Button fullWidth variant="contained" sx={{height: '56px'}}>
+						<Button fullWidth onClick={onAddFolderClick} variant="contained" sx={{height: '56px'}}>
 							{'Add'}
 						</Button>
 					</Grid>

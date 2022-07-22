@@ -44,6 +44,8 @@ namespace WebAlbum.Helpers
 
             CreateMap<Folder, GetFolderResponse>();
 
+            CreateMap<Folder, GetMainFoldersResponse>();
+
         }
     }
 }

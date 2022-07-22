@@ -51,7 +51,7 @@ function App() {
 					</Route>
 				<Route exact path={'/gallery/folder/:id/:token'} render={(props) => (
 					<Folder
-						token={props.match.params.token}
+						jwtToken={props.match.params.token}
 						parentId={props.match.params.id}
 					/>)}
 				/>
