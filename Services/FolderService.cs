@@ -44,14 +44,13 @@ namespace WebAlbum.Services
         public Folder DeleteFolder(DeleteFolderRequest request)
         {            
             var folder = _context.Folders.FirstOrDefault(x => x.Id == request.FolderId);
-
-            if(folder != null)
+            if (folder != null)
             {
-                DeleteNestedFolders(folder);
+                var nestedFolders = _context.Folders.Where(x => x.ParentFolderId == request.FolderId).ToList();
+                DeleteNestedFolders(nestedFolders);
                 _context.Folders.Remove(folder);
+                _context.SaveChanges();
             }
-                 
-            _context.SaveChanges();
 
             return folder;
         }
@@ -92,20 +91,17 @@ namespace WebAlbum.Services
             return response;
         }
 
-        private void DeleteNestedFolders(Folder folder)
+        private void DeleteNestedFolders(IEnumerable<Folder> nestedFolders)
         {
-            if(folder.InverseParentFolder == null)
+            foreach (var nestedFolder in nestedFolders)
             {
-                _context.Folders.Remove(folder);
-            }
-            else
-            {
-                var nestedFolders = _context.Folders.Where(x => x.ParentFolderId == folder.Id);
-
-                foreach (var item in nestedFolders)
+                var folders = _context.Folders.Where(x => x.ParentFolderId == nestedFolder.Id).ToList();
+                if (folders.Count != 0)
                 {
-                    DeleteNestedFolders(item);
+                    DeleteNestedFolders(folders);
                 }
+                _context.Folders.Remove(nestedFolder);
+                _context.SaveChanges();
             }
         }
     }

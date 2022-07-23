@@ -19,13 +19,13 @@ const Folder = (props: iFolder) => {
 	useEffect(() => {
 		const token = localStorage.getItem('jwtToken');
 		if (token) {
-			getFolder(jwtToken, folderId);
+			getFolder(token, folderId);
 			setJwtToken(localStorage.getItem('jwtToken') ?? '');
 		}
 	}, []);
 
 	const [folder, setFolder] = React.useState<iFolderData>({
-		folderName: 'Folder',
+		folderName: '',
 		parentFolderId: 'empty',
 		folders: [],
 	});
@@ -61,6 +61,7 @@ const Folder = (props: iFolder) => {
 		return GalleryDataProvider.deleteFolder(jwtToken, id)
 		.then(status => {
 			if (status === 200) {
+				getFolder(jwtToken, folderId);
 			}
 		});
 	}
