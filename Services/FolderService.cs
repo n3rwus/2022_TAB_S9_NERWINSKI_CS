@@ -42,9 +42,15 @@ namespace WebAlbum.Services
         }
 
         public Folder DeleteFolder(DeleteFolderRequest request)
-        {
+        {            
             var folder = _context.Folders.FirstOrDefault(x => x.Id == request.FolderId);
-            _context.Folders.Remove(folder);
+
+            if(folder != null)
+            {
+                DeleteNestedFolders(folder);
+                _context.Folders.Remove(folder);
+            }
+                 
             _context.SaveChanges();
 
             return folder;
@@ -52,9 +58,16 @@ namespace WebAlbum.Services
 
         public GetFolderResponse GetFolder(GetFolderRequest request)
         {
+            var accountId = _jwtUtils.ValidateJwtToken(request.UserToken);
+
             var folder = _context.Folders.FirstOrDefault(x=>x.Id == request.FolderId);
-            folder.InverseParentFolder = _context.Folders.Where(x => x.ParentFolderId == request.FolderId).ToList();
-            folder.Images = _context.Images.Where(x => x.FolderId == request.FolderId).ToList();
+
+            if (folder != null)
+            {
+                folder.InverseParentFolder = _context.Folders.Where(x => x.AccountId == accountId && x.ParentFolderId == request.FolderId).ToList();
+                folder.Images = _context.Images.Where(x => x.AccountId == accountId && x.FolderId == request.FolderId).ToList();
+            }
+
             var response = _mapper.Map<GetFolderResponse>(folder);
 
             return response;
@@ -77,6 +90,23 @@ namespace WebAlbum.Services
             var response = _mapper.Map<GetFolderListResponse>(folders);//TODO
 
             return response;
+        }
+
+        private void DeleteNestedFolders(Folder folder)
+        {
+            if(folder.InverseParentFolder == null)
+            {
+                _context.Folders.Remove(folder);
+            }
+            else
+            {
+                var nestedFolders = _context.Folders.Where(x => x.ParentFolderId == folder.Id);
+
+                foreach (var item in nestedFolders)
+                {
+                    DeleteNestedFolders(item);
+                }
+            }
         }
     }
 }
