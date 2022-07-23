@@ -1,8 +1,8 @@
 ﻿namespace WebAlbum.Models.Folders
 {
-    public class GetMainFolderResponse
+    public class GetMainFoldersResponse
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string FolderName { get; set; }
     }
 }

@@ -1,33 +1,80 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import FolderCopyTwoToneIcon from '@mui/icons-material/FolderCopyTwoTone';
 import MyTextField from '../../components/TextField';
 import FolderItem from '../../components/FolderItem';
 import SimplyImage from '../../components/SimplyImage';
+import { GalleryDataProvider, iFolderData } from '../../data/GalleryDataProvider';
 
 interface iFolder {
-	token: string;
-	parentId: string;
+	folderId: string;
+	parentFolderId: string;
 }
 
 const Folder = (props: iFolder) => {
-	const [folders, setFolders] = React.useState(['Folder 1', 'Folder 2', 'Folder 3']);
+
+	const [jwtToken, setJwtToken] = useState('');
+	
+	useEffect(() => {
+		const token = localStorage.getItem('jwtToken');
+		if (token) {
+			getFolder(token, folderId);
+			setJwtToken(localStorage.getItem('jwtToken') ?? '');
+		}
+	}, []);
+
+	const [folder, setFolder] = React.useState<iFolderData>({
+		folderName: '',
+		parentFolderId: 'empty',
+		folders: [],
+	});
 	const [newFolder, setNewFolder] = React.useState('');
 
 	const [images, setImages] = React.useState(['Image1', 'Image2', 'Image3']);
 
 	const {
-		token,
-		parentId,
+		folderId,
+		parentFolderId,
 	} = props;
 
-	const renderFolders = folders.map((folder, index) => (
+	const getFolder = (jwtToken: string, folderId: string) => {
+		GalleryDataProvider.getFolder(jwtToken, folderId)
+		.then((response) => {
+			if (typeof response === typeof folder) {
+				setFolder(response as iFolderData);
+			}
+		});
+	}
+
+	const onAddFolderClick = () => {
+		return GalleryDataProvider.addFolder(jwtToken, newFolder, folderId)
+		.then(status => {
+			if (status === 200) {
+				getFolder(jwtToken, folderId);
+			}
+			console.log(status);
+		});
+	}
+
+	const onDeleteFolderClick = (jwtToken: string, id: string) => {
+		return GalleryDataProvider.deleteFolder(jwtToken, id)
+		.then(status => {
+			if (status === 200) {
+				getFolder(jwtToken, folderId);
+			}
+		});
+	}
+
+	const renderFolders = folder.folders.map((nestedFolder) => (
 		<Grid item xs={12} sm={6} md={4}>
-			<FolderItem 
-				name={folder}
-				id={(index + 1).toString()}
-				token={token}
+			<FolderItem
+				key={nestedFolder.id}
+				name={nestedFolder.folderName}
+				id={nestedFolder.id}
+				parentFolderId={folder.parentFolderId}
+				jwtToken={jwtToken}
+				onDelete={onDeleteFolderClick}
 			/>
 		</Grid>
 	));
@@ -35,9 +82,10 @@ const Folder = (props: iFolder) => {
 	const renderImages = images.map((image , index) => (
 		<Grid item xs={12} sm={6} md={4}>
 			<SimplyImage
+				key={index + 1}
 				title={image}
 				id={(index + 1)}
-				folderId={parentId}
+				folderId={folderId}
 			/>
 		</Grid>
 	));
@@ -52,7 +100,7 @@ const Folder = (props: iFolder) => {
 					</Grid>
 					<Grid item xs={12}>
 						<Typography component="h1" variant="h5" sx={{color: '#1976d2'}}>
-							{'Folder Name'}
+							{folder.folderName}
 						</Typography>
 					</Grid>
 					<Grid item xs={3}>
@@ -65,7 +113,7 @@ const Folder = (props: iFolder) => {
 						/>
 					</Grid>
 					<Grid item xs={3}>
-						<Button fullWidth variant="contained" sx={{height: '56px', backgroundColor: '#00b4d8'}}>
+						<Button fullWidth onClick={onAddFolderClick} variant="contained" sx={{height: '56px', backgroundColor: '#00b4d8'}}>
 							{'Add'}
 						</Button>
 					</Grid>
