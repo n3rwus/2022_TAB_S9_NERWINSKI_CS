@@ -53,7 +53,8 @@ namespace WebAlbum.Services
         public GetFolderResponse GetFolder(GetFolderRequest request)
         {
             var folder = _context.Folders.FirstOrDefault(x=>x.Id == request.FolderId);
-
+            folder.InverseParentFolder = _context.Folders.Where(x => x.ParentFolderId == request.FolderId).ToList();
+            folder.Images = _context.Images.Where(x => x.FolderId == request.FolderId).ToList();
             var response = _mapper.Map<GetFolderResponse>(folder);
 
             return response;
